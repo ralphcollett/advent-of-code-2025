@@ -31,5 +31,4 @@ class ParseBatteryInputTest {
             ), parse("1230321 ??abc000456")
         )
     }
-
 }
