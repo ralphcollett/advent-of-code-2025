@@ -44,4 +44,12 @@ class SecretEntranceTest {
     fun `Password zero to start`() {
         assertEquals(0, secretEntrance.password())
     }
+
+    @Test
+    fun `Password increments when position hits zero`() {
+        secretEntrance.left(50)
+        secretEntrance.right(100)
+
+        assertEquals(2, secretEntrance.password())
+    }
 }

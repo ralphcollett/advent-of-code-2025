@@ -10,6 +10,8 @@ class SecretEntrance {
 
     private var position = 50
 
+    private var password = 0
+
     fun position(): Int = position
 
     fun left(distance: Int) {
@@ -17,7 +19,7 @@ class SecretEntrance {
             if (position == 0) {
                 position = maximumPosition
             } else {
-                position--
+                if (--position == 0) password++
             }
             left(distance - 1)
         }
@@ -27,6 +29,7 @@ class SecretEntrance {
         if (distance != 0) {
             if (position == maximumPosition) {
                 position = 0
+                password++
             } else {
                 position++
             }
@@ -34,5 +37,5 @@ class SecretEntrance {
         }
     }
 
-    fun password(): Int = 0
+    fun password(): Int = password
 }
