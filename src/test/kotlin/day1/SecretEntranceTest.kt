@@ -39,4 +39,8 @@ class SecretEntranceTest {
         )
     }
 
+    @Test
+    fun `Start in position 50`() {
+        assertEquals(50, SecretEntrance().position())
+    }
 }
