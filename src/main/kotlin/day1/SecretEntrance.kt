@@ -6,6 +6,8 @@ fun password(vararg rotations: Rotation): Int {
 
 class SecretEntrance {
 
+    private val maximumPosition = 99
+
     private var position = 50
 
     fun position(): Int = position
@@ -13,7 +15,7 @@ class SecretEntrance {
     fun left(distance: Int) {
         if (distance != 0) {
             if (position == 0) {
-                position = 99
+                position = maximumPosition
             } else {
                 position--
             }
@@ -23,7 +25,7 @@ class SecretEntrance {
 
     fun right(distance: Int) {
         if (distance != 0) {
-            if (position == 99) {
+            if (position == maximumPosition) {
                 position = 0
             } else {
                 position++
