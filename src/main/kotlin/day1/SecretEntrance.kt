@@ -13,4 +13,8 @@ class SecretEntrance {
     fun left(distance: Int) {
         position -= distance
     }
+
+    fun right(distance: Int) {
+        position += distance
+    }
 }
