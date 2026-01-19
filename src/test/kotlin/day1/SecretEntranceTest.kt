@@ -14,7 +14,7 @@ class SecretEntranceTest {
 
     @Test
     fun `Can move left`() {
-        secretEntrance.left(10);
+        secretEntrance.left(10)
 
         assertEquals(40, secretEntrance.position())
     }
