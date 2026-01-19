@@ -5,5 +5,12 @@ fun password(vararg rotations: Rotation): Int {
 }
 
 class SecretEntrance {
-    fun position(): Int = 50
+
+    private var position = 50
+
+    fun position(): Int = position
+
+    fun left(distance: Int) {
+        position -= distance
+    }
 }

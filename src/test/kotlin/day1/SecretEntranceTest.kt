@@ -43,4 +43,13 @@ class SecretEntranceTest {
     fun `Start in position 50`() {
         assertEquals(50, SecretEntrance().position())
     }
+
+    @Test
+    fun `Can move left`() {
+        val secretEntrance = SecretEntrance()
+
+        secretEntrance.left(10);
+
+        assertEquals(40, secretEntrance.position())
+    }
 }
