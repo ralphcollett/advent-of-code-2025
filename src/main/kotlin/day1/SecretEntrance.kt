@@ -1,7 +1,17 @@
 package day1
 
+import day1.Direction.LEFT
+import day1.Direction.RIGHT
+
 fun password(vararg rotations: Rotation): Int {
-    return 0
+    val secretEntrance = SecretEntrance()
+    rotations.forEach { rotation ->
+        when (rotation.direction) {
+            LEFT -> secretEntrance.left(rotation.distance)
+            RIGHT -> secretEntrance.right(rotation.distance)
+        }
+    }
+    return secretEntrance.password()
 }
 
 class SecretEntrance {
@@ -19,9 +29,11 @@ class SecretEntrance {
             if (position == 0) {
                 position = maximumPosition
             } else {
-                if (--position == 0) password++
+                position--
             }
             left(distance - 1)
+        } else if (position == 0) {
+            password++
         }
     }
 
@@ -29,11 +41,12 @@ class SecretEntrance {
         if (distance != 0) {
             if (position == maximumPosition) {
                 position = 0
-                password++
             } else {
                 position++
             }
             right(distance - 1)
+        } else if (position == 0) {
+            password++
         }
     }
 
