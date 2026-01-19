@@ -4,7 +4,7 @@ import day1.Direction.LEFT
 import day1.Direction.RIGHT
 
 fun password(rotations: String): Int {
-    TODO("Not yet implemented")
+    return password(* parse(rotations).toTypedArray())
 }
 
 fun password(vararg rotations: Rotation): Int {

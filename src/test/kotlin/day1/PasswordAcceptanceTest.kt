@@ -3,7 +3,6 @@ package day1
 import day1.Direction.LEFT
 import day1.Direction.RIGHT
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 
 class PasswordAcceptanceTest {
@@ -40,7 +39,6 @@ class PasswordAcceptanceTest {
     }
 
     @Test
-    @Disabled
     fun `Test with text input`() {
         assertEquals(3, password(
             """
