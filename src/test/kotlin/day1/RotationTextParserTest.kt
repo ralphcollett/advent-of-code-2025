@@ -16,4 +16,22 @@ class RotationTextParserTest {
     fun `Parse a right rotation`() {
         assertEquals(listOf(Rotation(RIGHT, 14)), parse("R14"))
     }
+
+    @Test
+    fun `Parse multiple rotations`() {
+        val actual = parse(
+            """
+            L68
+            L30
+            R48
+            L5
+        """.trimIndent()
+        )
+        assertEquals(listOf(
+            Rotation(LEFT, 68),
+            Rotation(LEFT, 30),
+            Rotation(RIGHT, 48),
+            Rotation(LEFT, 5),
+        ), actual)
+    }
 }

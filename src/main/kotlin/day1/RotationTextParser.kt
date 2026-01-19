@@ -1,10 +1,12 @@
 package day1
 
 fun parse(commands: String): List<Rotation> {
-    val distance = commands.substring(1).toInt()
-    return if (commands[0] == 'L') {
-        listOf(Rotation(Direction.LEFT, distance))
-    } else {
-        listOf(Rotation(Direction.RIGHT, distance))
+    fun parseRotation(rotationCommand: String): Rotation {
+        val distance = rotationCommand.substring(1).toInt()
+        return when {
+            rotationCommand[0] == 'L' -> Rotation(Direction.LEFT, distance)
+            else -> Rotation(Direction.RIGHT, distance)
+        }
     }
+    return commands.split("\n").map { parseRotation(it) }
 }
