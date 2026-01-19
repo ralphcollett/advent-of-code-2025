@@ -34,4 +34,20 @@ class RotationTextParserTest {
             Rotation(LEFT, 5),
         ), actual)
     }
+
+    @Test
+    fun `Ignores invalid rotations`() {
+        val actual = parse(
+            """
+            L68
+            l10
+            r41
+            C25
+            L??
+             R24
+        """.trimIndent()
+        )
+
+        assertEquals(listOf(Rotation(LEFT, 68)), actual)
+    }
 }
