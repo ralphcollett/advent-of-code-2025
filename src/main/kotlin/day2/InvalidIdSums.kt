@@ -1,5 +1,7 @@
 package day2
 
 fun invalidIdSums(puzzleInputStream: String): Int {
-    TODO("Not yet implemented")
+    return parse(puzzleInputStream)
+        .flatMap { findInvalidIds(it) }
+        .sum()
 }
