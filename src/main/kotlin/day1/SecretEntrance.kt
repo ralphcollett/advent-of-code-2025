@@ -42,14 +42,8 @@ class SecretEntrance {
     }
 
     fun right(distance: Int) {
-        if (distance != 0) {
-            if (position == maximumPosition) {
-                position = 0
-            } else {
-                position++
-            }
-            right(distance - 1)
-        } else if (position == 0) {
+        position = (position + distance).mod(maximumPosition + 1)
+        if (position == 0) {
             password++
         }
     }
