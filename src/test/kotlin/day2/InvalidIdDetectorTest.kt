@@ -2,6 +2,7 @@ package day2
 
 import org.junit.jupiter.api.Assertions.assertTrue
 import kotlin.test.Test
+import kotlin.test.assertFalse
 
 class InvalidIdDetectorTest {
 
@@ -10,7 +11,12 @@ class InvalidIdDetectorTest {
         assertTrue(idInvalid(11))
     }
 
+    @Test
+    fun `Knows if valid`() {
+        assertFalse(idInvalid(12))
+    }
+
     private fun idInvalid(productID: Int): Boolean {
-        return true
+        return productID % 10 == productID / 10
     }
 }
