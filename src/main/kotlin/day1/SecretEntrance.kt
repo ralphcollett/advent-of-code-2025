@@ -3,6 +3,10 @@ package day1
 import day1.Direction.LEFT
 import day1.Direction.RIGHT
 
+fun password(rotations: String): Int {
+    TODO("Not yet implemented")
+}
+
 fun password(vararg rotations: Rotation): Int {
     val secretEntrance = SecretEntrance()
     rotations.forEach { rotation ->
