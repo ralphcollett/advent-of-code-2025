@@ -39,4 +39,9 @@ class SecretEntranceTest {
 
         assertEquals(10, secretEntrance.position())
     }
+
+    @Test
+    fun `Password zero to start`() {
+        assertEquals(0, secretEntrance.password())
+    }
 }

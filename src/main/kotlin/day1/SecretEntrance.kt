@@ -33,4 +33,6 @@ class SecretEntrance {
             right(distance - 1)
         }
     }
+
+    fun password(): Int = 0
 }
