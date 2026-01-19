@@ -9,7 +9,7 @@ class BatteryJoltageAcceptanceTest {
     @Test
     @Disabled
     fun `Gets joltage from input`() {
-        assertEquals(357, joltage(
+        assertEquals(357, totalJoltage(
             """
                 987654321111111
                 811111111111119
