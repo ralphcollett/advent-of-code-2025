@@ -11,7 +11,14 @@ class SecretEntrance {
     fun position(): Int = position
 
     fun left(distance: Int) {
-        position -= distance
+        if (distance != 0) {
+            if (position == 0) {
+                position = 99
+            } else {
+                position--
+            }
+            left(distance - 1)
+        }
     }
 
     fun right(distance: Int) {

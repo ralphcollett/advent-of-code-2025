@@ -1,9 +1,6 @@
 package day1
 
-import day1.Direction.LEFT
-import day1.Direction.RIGHT
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 
 class SecretEntranceTest {
@@ -27,5 +24,12 @@ class SecretEntranceTest {
         secretEntrance.right(20)
 
         assertEquals(70, secretEntrance.position())
+    }
+
+    @Test
+    fun `Move left from zero moves to 99`() {
+        secretEntrance.left(51)
+
+        assertEquals(99, secretEntrance.position())
     }
 }
