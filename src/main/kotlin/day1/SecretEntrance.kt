@@ -22,6 +22,13 @@ class SecretEntrance {
     }
 
     fun right(distance: Int) {
-        position += distance
+        if (distance != 0) {
+            if (position == 99) {
+                position = 0
+            } else {
+                position++
+            }
+            right(distance - 1)
+        }
     }
 }

@@ -32,4 +32,11 @@ class SecretEntranceTest {
 
         assertEquals(99, secretEntrance.position())
     }
+
+    @Test
+    fun `Move right above 99 starts at zero`() {
+        secretEntrance.right(60)
+
+        assertEquals(10, secretEntrance.position())
+    }
 }
