@@ -5,8 +5,6 @@ import kotlin.test.assertEquals
 
 class ParseBatteryInputTest {
 
-    data class Bank(val batteries: List<Int>)
-
     @Test
     fun `Parses the puzzle input`() {
         assertEquals(
@@ -24,11 +22,14 @@ class ParseBatteryInputTest {
             """.trimIndent())
         )
     }
-
-    private fun parse(puzzleInput: String): List<Bank> {
-        return puzzleInput.split("\n").map {
-            bankInput ->
-                Bank(bankInput.map { it.digitToInt() })
-        }
+    
+    @Test
+    fun `Ignores invalid characters in bank`() {
+        assertEquals(
+            listOf(
+                Bank(listOf(1, 2, 3, 3, 2, 1, 4, 5, 6))
+            ), parse("1230321 ??abc000456")
+        )
     }
+
 }
