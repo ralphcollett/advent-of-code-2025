@@ -9,11 +9,11 @@ class RotationTextParserTest {
 
     @Test
     fun `Parse a left rotation`() {
-        assertEquals(Rotation(LEFT, 68), parse("L68"))
+        assertEquals(listOf(Rotation(LEFT, 68)), parse("L68"))
     }
 
     @Test
     fun `Parse a right rotation`() {
-        assertEquals(Rotation(RIGHT, 14), parse("R14"))
+        assertEquals(listOf(Rotation(RIGHT, 14)), parse("R14"))
     }
 }
