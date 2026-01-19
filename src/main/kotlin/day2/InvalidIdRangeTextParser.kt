@@ -2,8 +2,11 @@ package day2
 
 fun parse(inputString: String): List<IdRange> {
     val rangesInputs = inputString.split(',')
-    return rangesInputs.map { rangeInput ->
+    return rangesInputs.mapNotNull { rangeInput ->
         val rangeIds = rangeInput.split("-").map { it.trim() }
-        IdRange(rangeIds[0].toInt(), rangeIds[1].toInt())
+        val firstId = rangeIds.getOrNull(0)?.toIntOrNull() ?: return@mapNotNull null
+        val lastId = rangeIds.getOrNull(1)?.toIntOrNull() ?: return@mapNotNull null
+
+        IdRange(firstId, lastId)
     }
 }

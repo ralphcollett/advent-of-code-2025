@@ -35,4 +35,9 @@ class InvalidIdRangeTextParserTest {
         ), ranges)
     }
 
+    @Test
+    fun `Ignores invalid ranges`() {
+        assertEquals(emptyList(), parse(""))
+        assertEquals(listOf(IdRange(11, 22)), parse("1231,ABC,11-22,12-ABC,DEF-32"))
+    }
 }
