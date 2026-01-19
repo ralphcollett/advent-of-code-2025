@@ -14,5 +14,4 @@ class InvalidIdAcceptanceTest {
             824824821-824824827,2121212118-2121212124
         """.trimIndent())
     }
-
 }
