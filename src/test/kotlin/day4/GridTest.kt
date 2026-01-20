@@ -15,10 +15,21 @@ class GridTest {
     fun `Empty grid has no rolls of paper`() {
         val grid = arrayOf<Array<GridCellContents>>(emptyArray())
 
-        assertEquals(0, rollsOfPaper(grid))
+        assertEquals(0, accessibleRollsOfPaper(grid))
+    }
+    
+    @Test
+    fun `If just one roll of paper knows accessible`() {
+        val grid = arrayOf(
+            arrayOf(GridCellContents.ROLL_OF_PAPER)
+        )
+
+        assertEquals(1, accessibleRollsOfPaper(grid))
     }
 
-    private fun rollsOfPaper(grid: Grid): Int {
-        return 0
+    private fun accessibleRollsOfPaper(grid: Grid): Int {
+        return grid.sumOf { row ->
+            row.count { it == GridCellContents.ROLL_OF_PAPER }
+        }
     }
 }
