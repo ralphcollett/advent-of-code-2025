@@ -7,7 +7,7 @@ enum class GridCellContents {
     ROLL_OF_PAPER, EMPTY
 }
 
-typealias Grid = Array<Array<GridCellContents>>
+typealias Grid = List<List<GridCellContents>>
 
 fun accessibleRollsOfPaper(grid: Grid): Int {
     return grid.mapIndexed { rowIndex, row ->

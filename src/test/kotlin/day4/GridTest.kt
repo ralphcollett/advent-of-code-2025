@@ -9,15 +9,15 @@ class GridTest {
     
     @Test
     fun `Empty grid has no rolls of paper`() {
-        val grid = arrayOf<Array<GridCellContents>>(emptyArray())
+        val grid = listOf<List<GridCellContents>>(emptyList())
 
         assertEquals(0, accessibleRollsOfPaper(grid))
     }
     
     @Test
     fun `If just one roll of paper knows accessible`() {
-        val grid = arrayOf(
-            arrayOf(ROLL_OF_PAPER)
+        val grid = listOf(
+            listOf(ROLL_OF_PAPER)
         )
 
         assertEquals(1, accessibleRollsOfPaper(grid))
@@ -25,10 +25,10 @@ class GridTest {
 
     @Test
     fun `Roll of paper accessible if surrounded by fewer than 4 adjacent roles`() {
-        val grid = arrayOf(
-            arrayOf(EMPTY, ROLL_OF_PAPER, ROLL_OF_PAPER), // EMPTY ROLL ACCESSIBLE 1
-            arrayOf(ROLL_OF_PAPER, ROLL_OF_PAPER, ROLL_OF_PAPER), // ACCESSIBLE ROLL ROLL 1
-            arrayOf(EMPTY, ROLL_OF_PAPER, ROLL_OF_PAPER) // EMPTY ACCESSIBLE ROLL 1
+        val grid = listOf(
+            listOf(EMPTY, ROLL_OF_PAPER, ROLL_OF_PAPER), // EMPTY ROLL ACCESSIBLE 1
+            listOf(ROLL_OF_PAPER, ROLL_OF_PAPER, ROLL_OF_PAPER), // ACCESSIBLE ROLL ROLL 1
+            listOf(EMPTY, ROLL_OF_PAPER, ROLL_OF_PAPER) // EMPTY ACCESSIBLE ROLL 1
         ) // 1 + 1 + 1 = 3
 
         assertEquals(3, accessibleRollsOfPaper(grid))
