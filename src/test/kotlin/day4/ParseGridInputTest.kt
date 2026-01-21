@@ -53,17 +53,4 @@ class ParseGridInputTest {
         }
     }
 
-    private fun parse(puzzleInput: String): Grid {
-        val rows = puzzleInput.split("\n")
-        val longestRowLength = rows.maxOf { it.length }
-        return rows.take(longestRowLength).map { row ->
-            row.map {
-                when (it) {
-                    '.' -> EMPTY
-                    '@' -> ROLL_OF_PAPER
-                    else -> return emptyList()
-                }
-            }
-        }
-    }
 }
