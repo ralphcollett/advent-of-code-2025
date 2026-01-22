@@ -3,6 +3,7 @@ package day7
 import day7.TachylonManifoldInputParserTest.TachylonManifoldCell.*
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class TachylonManifoldInputParserTest {
 
@@ -37,7 +38,17 @@ class TachylonManifoldInputParserTest {
         assertEquals(tachylonManifold, parse(puzzleInput))
     }
 
-    private fun parse(puzzleInput: String): TachylonManifold {
+    @Test
+    fun `Top row must have a S`() {
+        val puzzleInput = """
+            .......
+            .......
+        """.trimIndent()
+
+        assertNull(parse(puzzleInput))
+    }
+
+    private fun parse(puzzleInput: String): TachylonManifold? {
         val cells = puzzleInput.split("\n").map { rowInput ->
             rowInput.map {
                 when (it) {
@@ -47,6 +58,7 @@ class TachylonManifoldInputParserTest {
                 }
             }
         }
+        if (! cells.first().contains(TACHYLON_BEAM)) return null
         return TachylonManifold(cells)
     }
 }
