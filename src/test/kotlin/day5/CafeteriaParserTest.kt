@@ -18,6 +18,13 @@ class CafeteriaParserTest {
             10-14
             16-20
             12-18
+            
+            1
+            5
+            8
+            11
+            17
+            32
         """.trimIndent()
 
         assertEquals(CafeteriaDatabase(
@@ -27,18 +34,27 @@ class CafeteriaParserTest {
                 FreshIngredientRange(16, 20),
                 FreshIngredientRange(12, 18)
             ),
-            emptyList()
+            listOf(
+                1,
+                5,
+                8,
+                11,
+                17,
+                32
+            )
         ), parse(puzzleInput))
     }
 
     private fun parse(puzzleInput: String): CafeteriaDatabase {
-        val freshIngredientIdRanges = puzzleInput.split("\n").map { puzzleRow ->
-            val (startId, endId) = puzzleRow.split("-")
+        val (rangeInput, freshIngredientIdsInput) = puzzleInput.split("\n\n")
+        val freshIngredientIdRanges = rangeInput.split("\n").map { freshIngredientRow ->
+            val (startId, endId) = freshIngredientRow.split("-")
             FreshIngredientRange(startId.toInt(), endId.toInt())
         }
+        val freshIngredientIds = freshIngredientIdsInput.split("\n").map { it.toInt() }
         return CafeteriaDatabase(
             freshIngredientIdRanges,
-            emptyList()
+            freshIngredientIds
         )
     }
 }
