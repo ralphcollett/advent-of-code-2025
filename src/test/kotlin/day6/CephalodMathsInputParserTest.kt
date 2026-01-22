@@ -56,18 +56,38 @@ class CephalodMathsInputParserTest {
         )
     }
 
+    @Test
+    fun `Ignores rows with invalid operators`() {
+        val puzzleInput = """
+            123 328 
+             45 64  
+              6 98 
+            *   ?     
+        """.trimIndent()
+
+        assertEquals(
+            CephalodMaths(
+                listOf(
+                    CephalodMathsProblem(listOf(123, 45, 6), MULTIPLICATION),
+                )
+            ), parse(puzzleInput)
+        )
+    }
+
     private fun parse(puzzleInput: String): CephalodMaths {
         val puzzleInputRows = puzzleInput.split("\n")
         val numberInputRows = puzzleInputRows.dropLast(1).map { it.trim().split("\\s+".toRegex()) }
         val operators = puzzleInputRows.last().split("\\s+".toRegex()).map {
             when (it) {
                 "*" -> MULTIPLICATION
-                else -> ADDITION
+                "+" -> ADDITION
+                else -> null
             }
         }
         val maximumRowSize = numberInputRows.minOf { it.size }
-        val problems = (0 until maximumRowSize).map { rowIndex ->
-            CephalodMathsProblem(numberInputRows.mapNotNull { it[rowIndex].trim().toIntOrNull() }, operators[rowIndex])
+        val problems = (0 until maximumRowSize).mapNotNull { rowIndex ->
+            val operator = operators[rowIndex] ?: return@mapNotNull null
+            CephalodMathsProblem(numberInputRows.mapNotNull { it[rowIndex].trim().toIntOrNull() }, operator)
         }
 
         return CephalodMaths(problems)
