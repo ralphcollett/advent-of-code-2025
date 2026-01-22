@@ -16,12 +16,9 @@ class CephalodMathsAcceptanceTest {
             *   +   *   +  
         """.trimIndent()
 
-        val grandTotal = solveCephalodMathHomework(puzzleInput)
+        val grandTotal = solveMathHomework(puzzleInput)
 
         assertEquals(4277556, grandTotal)
     }
 
-    private fun solveCephalodMathHomework(puzzleInput: String): Int {
-        TODO("Not yet implemented")
-    }
 }
