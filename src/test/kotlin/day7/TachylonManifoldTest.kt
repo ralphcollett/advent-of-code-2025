@@ -22,7 +22,7 @@ class TachylonManifoldTest {
             )
         )
 
-        assertEquals(moved, moveDown(initial))
+        assertEquals(moved, initial.moveDown())
     }
 
     @Test
@@ -41,7 +41,7 @@ class TachylonManifoldTest {
             )
         )
 
-        assertEquals(moved, moveDown(initial))
+        assertEquals(moved, initial.moveDown())
     }
 
     @Test
@@ -62,7 +62,7 @@ class TachylonManifoldTest {
             )
         )
 
-        assertEquals(moved, moveDown(initial))
+        assertEquals(moved, initial.moveDown())
     }
 
     @Test
@@ -83,7 +83,7 @@ class TachylonManifoldTest {
             )
         )
 
-        assertEquals(moved, moveDown(initial))
+        assertEquals(moved, initial.moveDown())
     }
 
     @Test
@@ -104,7 +104,7 @@ class TachylonManifoldTest {
             )
         )
 
-        assertEquals(moved, moveDown(initial))
+        assertEquals(moved, initial.moveDown())
     }
 
     @Test
@@ -123,32 +123,6 @@ class TachylonManifoldTest {
             )
         )
 
-        assertEquals(moved, moveDown(initial))
-    }
-
-    private fun moveDown(initial: TachylonManifold): TachylonManifold {
-        val grid = initial.grid
-        val liveRowIndex = grid.indexOfLast { row -> row.any { it == TACHYLON_BEAM } }
-        val liveRow = grid[liveRowIndex]
-        val tachylonPositions = liveRow.withIndex().filter { it.value == TACHYLON_BEAM }.map { it.index }
-        val nextRow = grid.getOrNull(liveRowIndex + 1) ?: return initial
-        val indexNextRow = nextRow.withIndex()
-        val nextRowSplitterPositions = indexNextRow.filter { it.value == SPLITTER }.map { it.index }
-        val newNextRow = nextRow.mapIndexed { index, cell ->
-            when (cell) {
-                EMPTY if (index in tachylonPositions) -> TACHYLON_BEAM
-                EMPTY if (index + 1 in tachylonPositions) && index + 1 in nextRowSplitterPositions -> TACHYLON_BEAM
-                EMPTY if (index - 1 in tachylonPositions) && index - 1 in nextRowSplitterPositions -> TACHYLON_BEAM
-                SPLITTER -> SPLITTER
-                else -> EMPTY
-            }
-        }
-        val newGrid = grid.mapIndexed { index, row ->
-            when (index) {
-                liveRowIndex + 1 -> newNextRow
-                else -> row
-            }
-        }
-        return TachylonManifold(newGrid)
+        assertEquals(moved, initial.moveDown())
     }
 }
