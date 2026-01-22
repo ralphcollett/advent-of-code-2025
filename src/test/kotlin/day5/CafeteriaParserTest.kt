@@ -45,11 +45,32 @@ class CafeteriaParserTest {
         ), parse(puzzleInput))
     }
 
+    @Test
+    fun `Ignores invalid ranges`() {
+        val puzzleInput = """
+            3-5
+            a-2
+            3-abc
+            21
+            
+            2
+        """.trimIndent()
+
+        assertEquals(CafeteriaDatabase(
+            listOf(FreshIngredientRange(3, 5)),
+                listOf(2)
+            ), parse(puzzleInput))
+    }
+
     private fun parse(puzzleInput: String): CafeteriaDatabase {
         val (rangeInput, freshIngredientIdsInput) = puzzleInput.split("\n\n")
-        val freshIngredientIdRanges = rangeInput.split("\n").map { freshIngredientRow ->
-            val (startId, endId) = freshIngredientRow.split("-")
-            FreshIngredientRange(startId.toInt(), endId.toInt())
+        val freshIngredientIdRanges = rangeInput.split("\n").mapNotNull { freshIngredientRow ->
+            val freshIngredientIds = freshIngredientRow.split("-")
+            val startIdInput = freshIngredientIds.first()
+            val endIdInput = freshIngredientIds.getOrNull(1)
+            val startId = startIdInput.toIntOrNull() ?: return@mapNotNull null
+            val endId = endIdInput?.toIntOrNull() ?: return@mapNotNull null
+            FreshIngredientRange(startId, endId)
         }
         val freshIngredientIds = freshIngredientIdsInput.split("\n").map { it.toInt() }
         return CafeteriaDatabase(
