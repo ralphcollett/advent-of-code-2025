@@ -20,7 +20,7 @@ class TachylonManifoldInputParserTest {
 
         val tachylonManifold = TachylonManifold(
             listOf(
-                listOf(EMPTY, EMPTY, EMPTY, TACHYLON_BEAM_START_POSITION, EMPTY, EMPTY, EMPTY),
+                listOf(EMPTY, EMPTY, EMPTY, TACHYLON_BEAM, EMPTY, EMPTY, EMPTY),
                 listOf(EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY),
                 listOf(EMPTY, EMPTY, EMPTY, SPLITTER, EMPTY, EMPTY, EMPTY),
                 listOf(EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY),

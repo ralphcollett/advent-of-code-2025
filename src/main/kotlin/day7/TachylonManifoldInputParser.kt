@@ -6,7 +6,7 @@ fun parse(puzzleInput: String): TachylonManifold? {
     val cells = puzzleInput.split("\n").map { rowInput ->
         rowInput.map {
             when (it) {
-                'S' -> TACHYLON_BEAM_START_POSITION
+                'S' -> TACHYLON_BEAM
                 '^' -> SPLITTER
                 '.' -> EMPTY
                 else -> return null
@@ -14,6 +14,6 @@ fun parse(puzzleInput: String): TachylonManifold? {
         }
     }
     if (cells.any { it.size != cells.first().size }) return null
-    if (! cells.first().contains(TACHYLON_BEAM_START_POSITION)) return null
+    if (! cells.first().contains(TACHYLON_BEAM)) return null
     return TachylonManifold(cells)
 }
