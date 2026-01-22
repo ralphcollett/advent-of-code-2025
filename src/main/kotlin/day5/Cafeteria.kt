@@ -27,7 +27,7 @@ fun countFreshIngredients(database: CafeteriaDatabase): Int {
     }
 }
 
-fun freshness(ingredientId: FreshIngredientId, freshIngredientRange: FreshIngredientRange): IngredientFreshness {
+private fun freshness(ingredientId: FreshIngredientId, freshIngredientRange: FreshIngredientRange): IngredientFreshness {
     val idInRange = freshIngredientRange.run {
         startId..endId
     }.contains(ingredientId)

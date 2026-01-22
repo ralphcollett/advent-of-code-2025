@@ -1,7 +1,5 @@
 package day5
 
-import day5.IngredientFreshness.FRESH
-import day5.IngredientFreshness.SPOILED
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -9,22 +7,42 @@ class CafeteriaTest {
 
     @Test
     fun `Knows if fresh ingredient based on range`() {
-        assertEquals(FRESH, freshness(4, FreshIngredientRange(3, 5)))
+        assertEquals(1, countFreshIngredients(
+            CafeteriaDatabase(
+                listOf(FreshIngredientRange(3, 5)),
+                listOf(4)
+            ))
+        )
     }
 
     @Test
     fun `Knows if fresh ingredient based on range including lower boundary`() {
-        assertEquals(FRESH, freshness(3, FreshIngredientRange(3, 5)))
+        assertEquals(1, countFreshIngredients(
+            CafeteriaDatabase(
+                listOf(FreshIngredientRange(3, 5)),
+                listOf(3)
+            ))
+        )
     }
 
     @Test
     fun `Knows if fresh ingredient based on range including upper boundary`() {
-        assertEquals(FRESH, freshness(3, FreshIngredientRange(3, 5)))
+        assertEquals(1, countFreshIngredients(
+            CafeteriaDatabase(
+                listOf(FreshIngredientRange(3, 5)),
+                listOf(3)
+            ))
+        )
     }
 
     @Test
     fun `Knows if spoiled ingredient`() {
-        assertEquals(SPOILED, freshness(2, FreshIngredientRange(3, 5)))
+        assertEquals(0, countFreshIngredients(
+            CafeteriaDatabase(
+                listOf(FreshIngredientRange(3, 5)),
+                listOf(2)
+            ))
+        )
     }
 
     @Test
