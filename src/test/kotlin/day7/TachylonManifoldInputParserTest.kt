@@ -39,10 +39,20 @@ class TachylonManifoldInputParserTest {
     }
 
     @Test
-    fun `Top row must have a S`() {
+    fun `Top row must have a starting position`() {
         val puzzleInput = """
             .......
             .......
+        """.trimIndent()
+
+        assertNull(parse(puzzleInput))
+    }
+
+    @Test
+    fun `Must not contain invalid characters`() {
+        val puzzleInput = """
+            ...S...
+            ...?.x.
         """.trimIndent()
 
         assertNull(parse(puzzleInput))
@@ -54,7 +64,8 @@ class TachylonManifoldInputParserTest {
                 when (it) {
                     'S' -> TACHYLON_BEAM_START_POSITION
                     '^' -> SPLITTER
-                    else -> EMPTY
+                    '.' -> EMPTY
+                    else -> return null
                 }
             }
         }
