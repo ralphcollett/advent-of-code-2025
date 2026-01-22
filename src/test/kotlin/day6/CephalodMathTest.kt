@@ -36,9 +36,9 @@ class CephalodMathTest {
     }
 
     private fun calculate(cephalodMath: CephalodMath): Int {
-        val cephalodMathProblem = cephalodMath.problems.first()
-        return cephalodMathProblem.numbers.reduce { acc, i ->
-            cephalodMathProblem.operator.operate(acc, i)
+        val (numbers, operator) = cephalodMath.problems.first()
+        return numbers.reduce { acc, i ->
+            operator.operate(acc, i)
         }
     }
 }
