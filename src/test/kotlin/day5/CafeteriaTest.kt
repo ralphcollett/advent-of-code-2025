@@ -27,4 +27,36 @@ class CafeteriaTest {
         assertEquals(SPOILED, freshness(2, FreshIngredientRange(3, 5)))
     }
 
+    @Test
+    fun `Knows freshness of multiple ingredient IDs in range`() {
+        val freshIngredientCount =  countFreshIngredients(
+            CafeteriaDatabase(
+                listOf(
+                    FreshIngredientRange(3, 5),
+                    FreshIngredientRange(10, 14),
+                    FreshIngredientRange(16, 20),
+                    FreshIngredientRange(12, 18)
+                ),
+                listOf(
+                    1,
+                    5,
+                    8,
+                    11,
+                    17,
+                    32
+                )
+            )
+        )
+
+        assertEquals(3, freshIngredientCount)
+    }
+
+    private fun countFreshIngredients(database: CafeteriaDatabase): Int {
+        val (ingredientRanges, ingredientIds) = database
+        return ingredientIds.count { ingredientId ->
+            ingredientRanges.any { ingredientRange ->
+                freshness(ingredientId, ingredientRange) == FRESH
+            }
+        }
+    }
 }

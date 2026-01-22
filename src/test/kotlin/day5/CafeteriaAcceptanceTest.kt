@@ -27,5 +27,4 @@ class CafeteriaAcceptanceTest {
 
         assertEquals(3, freshIngrediantCount)
     }
-
 }
