@@ -58,6 +58,17 @@ class TachylonManifoldInputParserTest {
         assertNull(parse(puzzleInput))
     }
 
+    @Test
+    fun `Rows must be same length`() {
+        val puzzleInput = """
+            ...S...
+            .....
+            ........
+        """.trimIndent()
+
+        assertNull(parse(puzzleInput))
+    }
+
     private fun parse(puzzleInput: String): TachylonManifold? {
         val cells = puzzleInput.split("\n").map { rowInput ->
             rowInput.map {
@@ -69,6 +80,7 @@ class TachylonManifoldInputParserTest {
                 }
             }
         }
+        if (cells.any { it.size != cells.first().size }) return null
         if (! cells.first().contains(TACHYLON_BEAM_START_POSITION)) return null
         return TachylonManifold(cells)
     }
