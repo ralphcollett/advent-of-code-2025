@@ -14,9 +14,7 @@ enum class IngredientFreshness {
     SPOILED
 }
 
-fun countFreshIngredients(puzzleInputTest: String): Int {
-    return 0
-}
+fun countFreshIngredients(puzzleInputTest: String): Int = countFreshIngredients(parse(puzzleInputTest))
 
 fun countFreshIngredients(database: CafeteriaDatabase): Int {
     val (ingredientRanges, ingredientIds) = database

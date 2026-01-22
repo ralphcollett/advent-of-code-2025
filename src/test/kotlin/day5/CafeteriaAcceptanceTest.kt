@@ -1,13 +1,11 @@
 package day5
 
-import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class CafeteriaAcceptanceTest {
 
     @Test
-    @Disabled
     fun `Counts fresh ingredients`() {
         val freshIngrediantCount = countFreshIngredients(
             """
