@@ -57,12 +57,30 @@ class CephalodMathsInputParserTest {
     }
 
     @Test
-    fun `Ignores rows with invalid operators`() {
+    fun `Ignores columns with invalid operators`() {
         val puzzleInput = """
             123 328 
              45 64  
               6 98 
             *   ?     
+        """.trimIndent()
+
+        assertEquals(
+            CephalodMaths(
+                listOf(
+                    CephalodMathsProblem(listOf(123, 45, 6), MULTIPLICATION),
+                )
+            ), parse(puzzleInput)
+        )
+    }
+
+    @Test
+    fun `Ignores columns with invalid numbers`() {
+        val puzzleInput = """
+            123 328 
+             45 ABC  
+              6 98 
+            *   +   
         """.trimIndent()
 
         assertEquals(
@@ -87,7 +105,9 @@ class CephalodMathsInputParserTest {
         val maximumRowSize = numberInputRows.minOf { it.size }
         val problems = (0 until maximumRowSize).mapNotNull { rowIndex ->
             val operator = operators[rowIndex] ?: return@mapNotNull null
-            CephalodMathsProblem(numberInputRows.mapNotNull { it[rowIndex].trim().toIntOrNull() }, operator)
+            CephalodMathsProblem(numberInputRows.map {
+                it[rowIndex].toIntOrNull() ?: return@mapNotNull null
+            }, operator)
         }
 
         return CephalodMaths(problems)
