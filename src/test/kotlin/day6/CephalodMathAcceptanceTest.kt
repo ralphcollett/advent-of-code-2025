@@ -1,13 +1,11 @@
 package day6
 
-import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class CephalodMathAcceptanceTest {
 
     @Test
-    @Disabled
     fun `Solves Cephalod math homework`() {
         val puzzleInput = """
             123 328  51 64 

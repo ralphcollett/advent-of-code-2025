@@ -4,7 +4,8 @@ package day6
 enum class CephalodMathOperator {
     ADDITION {
         override fun operate(a: Int, b: Int): Int = a + b
-    }, MULTIPLICATION {
+    },
+    MULTIPLICATION {
         override fun operate(a: Int, b: Int): Int = a * b
     };
 
@@ -15,9 +16,7 @@ data class CephalodMathProblem(val numbers: List<Int>, val operator: CephalodMat
 
 data class CephalodMath(val problems: List<CephalodMathProblem>)
 
-fun solveMathHomework(puzzleInput: String): Int {
-    TODO("Not yet implemented")
-}
+fun solveMathHomework(puzzleInput: String): Int = calculate(parse(puzzleInput))
 
 fun calculate(cephalodMath: CephalodMath): Int {
     return cephalodMath.problems.sumOf { (numbers, operator) ->
