@@ -3,12 +3,6 @@ package day5
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-typealias FreshIngredientId = Int
-
-data class FreshIngredientRange(val startId: FreshIngredientId, val endId: FreshIngredientId)
-
-data class CafeteriaDatabase(val freshIngredientIdRanges: List<FreshIngredientRange>, val freshIngredientIds: List<FreshIngredientId>)
-
 class CafeteriaParserTest {
 
     @Test
@@ -79,20 +73,4 @@ class CafeteriaParserTest {
         ), parse(puzzleInput))
     }
 
-    private fun parse(puzzleInput: String): CafeteriaDatabase {
-        val (rangeInput, freshIngredientIdsInput) = puzzleInput.split("\n\n")
-        val freshIngredientIdRanges = rangeInput.split("\n").mapNotNull { freshIngredientRow ->
-            val freshIngredientIds = freshIngredientRow.split("-")
-            val startIdInput = freshIngredientIds.first()
-            val endIdInput = freshIngredientIds.getOrNull(1)
-            val startId = startIdInput.toIntOrNull() ?: return@mapNotNull null
-            val endId = endIdInput?.toIntOrNull() ?: return@mapNotNull null
-            FreshIngredientRange(startId, endId)
-        }
-        val freshIngredientIds = freshIngredientIdsInput.split("\n").mapNotNull { it.toIntOrNull() }
-        return CafeteriaDatabase(
-            freshIngredientIdRanges,
-            freshIngredientIds
-        )
-    }
 }
