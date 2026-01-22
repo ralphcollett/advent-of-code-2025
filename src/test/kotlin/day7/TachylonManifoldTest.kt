@@ -44,24 +44,51 @@ class TachylonManifoldTest {
         assertEquals(moved, moveDown(initial))
     }
 
+    @Test
+    fun `Test can split from second row`() {
+        val initial = TachylonManifold(
+            listOf(
+                listOf(EMPTY, TACHYLON_BEAM_START_POSITION, EMPTY),
+                listOf(EMPTY, TACHYLON_BEAM, EMPTY),
+                listOf(EMPTY, SPLITTER, EMPTY)
+            )
+        )
+
+        val moved = TachylonManifold(
+            listOf(
+                listOf(EMPTY, TACHYLON_BEAM_START_POSITION, EMPTY),
+                listOf(EMPTY, TACHYLON_BEAM, EMPTY),
+                listOf(TACHYLON_BEAM, SPLITTER, TACHYLON_BEAM),
+            )
+        )
+
+        assertEquals(moved, moveDown(initial))
+    }
+
     private fun moveDown(initial: TachylonManifold): TachylonManifold {
         val grid = initial.grid
-        val topRow = grid.first()
-        val tachylonStartPosition = topRow.indexOf(TACHYLON_BEAM_START_POSITION)
-        val secondRow = grid[1]
-        val indexedSecondRow = secondRow.withIndex()
-        val secondRowSplitterPositions = indexedSecondRow.filter { it.value == SPLITTER }.map { it.index }
-        val newSecondRow = secondRow.mapIndexed { index, cell ->
+        val tachylonBeamCellTypes = setOf(TACHYLON_BEAM, TACHYLON_BEAM_START_POSITION)
+        val liveRowIndex = grid.indexOfLast { row -> row.any { it in tachylonBeamCellTypes } }
+        val liveRow = grid[liveRowIndex]
+        val tachylonPosition = liveRow.indexOfLast { it in tachylonBeamCellTypes}
+        val nextRow = grid[liveRowIndex + 1]
+        val indexNextRow = nextRow.withIndex()
+        val nextRowSplitterPositions = indexNextRow.filter { it.value == SPLITTER }.map { it.index }
+        val newNextRow = nextRow.mapIndexed { index, cell ->
             when (cell) {
-                EMPTY if (index == tachylonStartPosition) -> TACHYLON_BEAM
-                EMPTY if secondRowSplitterPositions.contains(index + 1) -> TACHYLON_BEAM
-                EMPTY if secondRowSplitterPositions.contains(index - 1) -> TACHYLON_BEAM
+                EMPTY if (index == tachylonPosition) -> TACHYLON_BEAM
+                EMPTY if nextRowSplitterPositions.contains(index + 1) -> TACHYLON_BEAM
+                EMPTY if nextRowSplitterPositions.contains(index - 1) -> TACHYLON_BEAM
                 SPLITTER -> SPLITTER
                 else -> EMPTY
             }
         }
-        return TachylonManifold(
-            listOf(topRow, newSecondRow)
-        )
+        val newGrid = grid.mapIndexed { index, row ->
+            when (index) {
+                liveRowIndex + 1 -> newNextRow
+                else -> row
+            }
+        }
+        return TachylonManifold(newGrid)
     }
 }
