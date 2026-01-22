@@ -1,9 +1,9 @@
 package day6
 
-import day6.CephalodMathsOperator.ADDITION
-import day6.CephalodMathsOperator.MULTIPLICATION
+import day6.CephalodMathOperator.ADDITION
+import day6.CephalodMathOperator.MULTIPLICATION
 
-fun parse(puzzleInput: String): CephalodMaths {
+fun parse(puzzleInput: String): CephalodMath {
     val puzzleInputRows = puzzleInput.split("\n")
     val numberInputRows = puzzleInputRows.dropLast(1).map { it.trim().split("\\s+".toRegex()) }
     val operators = puzzleInputRows.last().split("\\s+".toRegex()).map {
@@ -16,10 +16,10 @@ fun parse(puzzleInput: String): CephalodMaths {
     val maximumRowSize = numberInputRows.minOf { it.size }
     val problems = (0 until maximumRowSize).mapNotNull { rowIndex ->
         val operator = operators[rowIndex] ?: return@mapNotNull null
-        CephalodMathsProblem(numberInputRows.map {
+        CephalodMathProblem(numberInputRows.map {
             it[rowIndex].toIntOrNull() ?: return@mapNotNull null
         }, operator)
     }
 
-    return CephalodMaths(problems)
+    return CephalodMath(problems)
 }

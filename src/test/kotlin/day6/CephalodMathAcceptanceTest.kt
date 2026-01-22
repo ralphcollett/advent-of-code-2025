@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Disabled
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CephalodMathsAcceptanceTest {
+class CephalodMathAcceptanceTest {
 
     @Test
     @Disabled

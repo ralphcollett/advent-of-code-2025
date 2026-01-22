@@ -1,13 +1,13 @@
 package day6
 
 
-enum class CephalodMathsOperator {
+enum class CephalodMathOperator {
     ADDITION, MULTIPLICATION
 }
 
-data class CephalodMathsProblem(val numbers: List<Int>, val operator: CephalodMathsOperator)
+data class CephalodMathProblem(val numbers: List<Int>, val operator: CephalodMathOperator)
 
-data class CephalodMaths(val problems: List<CephalodMathsProblem>)
+data class CephalodMath(val problems: List<CephalodMathProblem>)
 
 fun solveMathHomework(puzzleInput: String): Int {
     TODO("Not yet implemented")
