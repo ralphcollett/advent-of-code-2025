@@ -18,6 +18,15 @@ fun countFreshIngredients(puzzleInputTest: String): Int {
     return 0
 }
 
+fun countFreshIngredients(database: CafeteriaDatabase): Int {
+    val (ingredientRanges, ingredientIds) = database
+    return ingredientIds.count { ingredientId ->
+        ingredientRanges.any { ingredientRange ->
+            freshness(ingredientId, ingredientRange) == FRESH
+        }
+    }
+}
+
 fun freshness(ingredientId: FreshIngredientId, freshIngredientRange: FreshIngredientRange): IngredientFreshness {
     val idInRange = freshIngredientRange.run {
         startId..endId

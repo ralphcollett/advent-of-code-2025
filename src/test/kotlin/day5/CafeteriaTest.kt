@@ -50,13 +50,4 @@ class CafeteriaTest {
 
         assertEquals(3, freshIngredientCount)
     }
-
-    private fun countFreshIngredients(database: CafeteriaDatabase): Int {
-        val (ingredientRanges, ingredientIds) = database
-        return ingredientIds.count { ingredientId ->
-            ingredientRanges.any { ingredientRange ->
-                freshness(ingredientId, ingredientRange) == FRESH
-            }
-        }
-    }
 }
