@@ -2,7 +2,13 @@ package day6
 
 
 enum class CephalodMathOperator {
-    ADDITION, MULTIPLICATION
+    ADDITION {
+        override fun operate(a: Int, b: Int): Int = a + b
+    }, MULTIPLICATION {
+        override fun operate(a: Int, b: Int): Int = a * b
+    };
+
+    abstract fun operate(a: Int, b: Int): Int
 }
 
 data class CephalodMathProblem(val numbers: List<Int>, val operator: CephalodMathOperator)
