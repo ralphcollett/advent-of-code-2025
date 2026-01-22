@@ -69,6 +69,11 @@ class TachylonManifoldInputParserTest {
         assertNull(parse(puzzleInput))
     }
 
+    @Test
+    fun `Not allow an empty grid`() {
+        assertNull(parse(""))
+    }
+
     private fun parse(puzzleInput: String): TachylonManifold? {
         val cells = puzzleInput.split("\n").map { rowInput ->
             rowInput.map {
