@@ -107,12 +107,31 @@ class TachylonManifoldTest {
         assertEquals(moved, moveDown(initial))
     }
 
+    @Test
+    fun `No change when beams exit manifold`() {
+        val initial = TachylonManifold(
+            listOf(
+                listOf(EMPTY, EMPTY, TACHYLON_BEAM, EMPTY, EMPTY),
+                listOf(EMPTY, TACHYLON_BEAM, SPLITTER, TACHYLON_BEAM, EMPTY),
+            )
+        )
+
+        val moved = TachylonManifold(
+            listOf(
+                listOf(EMPTY, EMPTY, TACHYLON_BEAM, EMPTY, EMPTY),
+                listOf(EMPTY, TACHYLON_BEAM, SPLITTER, TACHYLON_BEAM, EMPTY),
+            )
+        )
+
+        assertEquals(moved, moveDown(initial))
+    }
+
     private fun moveDown(initial: TachylonManifold): TachylonManifold {
         val grid = initial.grid
         val liveRowIndex = grid.indexOfLast { row -> row.any { it == TACHYLON_BEAM } }
         val liveRow = grid[liveRowIndex]
         val tachylonPositions = liveRow.withIndex().filter { it.value == TACHYLON_BEAM }.map { it.index }
-        val nextRow = grid[liveRowIndex + 1]
+        val nextRow = grid.getOrNull(liveRowIndex + 1) ?: return initial
         val indexNextRow = nextRow.withIndex()
         val nextRowSplitterPositions = indexNextRow.filter { it.value == SPLITTER }.map { it.index }
         val newNextRow = nextRow.mapIndexed { index, cell ->
