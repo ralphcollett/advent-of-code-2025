@@ -27,13 +27,4 @@ class CafeteriaTest {
         assertEquals(SPOILED, freshness(2, FreshIngredientRange(3, 5)))
     }
 
-    private fun freshness(ingredientId: FreshIngredientId, freshIngredientRange: FreshIngredientRange): IngredientFreshness {
-        val idInRange = freshIngredientRange.run {
-            startId..endId
-        }.contains(ingredientId)
-        return when {
-            idInRange -> FRESH
-            else -> SPOILED
-        }
-    }
 }

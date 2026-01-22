@@ -1,5 +1,8 @@
 package day5
 
+import day5.IngredientFreshness.FRESH
+import day5.IngredientFreshness.SPOILED
+
 typealias FreshIngredientId = Int
 
 data class FreshIngredientRange(val startId: FreshIngredientId, val endId: FreshIngredientId)
@@ -13,4 +16,14 @@ enum class IngredientFreshness {
 
 fun countFreshIngredients(puzzleInputTest: String): Int {
     return 0
+}
+
+fun freshness(ingredientId: FreshIngredientId, freshIngredientRange: FreshIngredientRange): IngredientFreshness {
+    val idInRange = freshIngredientRange.run {
+        startId..endId
+    }.contains(ingredientId)
+    return when {
+        idInRange -> FRESH
+        else -> SPOILED
+    }
 }
