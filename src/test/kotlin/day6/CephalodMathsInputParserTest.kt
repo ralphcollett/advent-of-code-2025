@@ -5,14 +5,6 @@ import day6.CephalodMathsOperator.MULTIPLICATION
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-enum class CephalodMathsOperator {
-    ADDITION, MULTIPLICATION
-}
-
-data class CephalodMathsProblem(val numbers: List<Int>, val operator: CephalodMathsOperator)
-
-data class CephalodMaths(val problems: List<CephalodMathsProblem>)
-
 class CephalodMathsInputParserTest {
 
     @Test
@@ -92,24 +84,4 @@ class CephalodMathsInputParserTest {
         )
     }
 
-    private fun parse(puzzleInput: String): CephalodMaths {
-        val puzzleInputRows = puzzleInput.split("\n")
-        val numberInputRows = puzzleInputRows.dropLast(1).map { it.trim().split("\\s+".toRegex()) }
-        val operators = puzzleInputRows.last().split("\\s+".toRegex()).map {
-            when (it) {
-                "*" -> MULTIPLICATION
-                "+" -> ADDITION
-                else -> null
-            }
-        }
-        val maximumRowSize = numberInputRows.minOf { it.size }
-        val problems = (0 until maximumRowSize).mapNotNull { rowIndex ->
-            val operator = operators[rowIndex] ?: return@mapNotNull null
-            CephalodMathsProblem(numberInputRows.map {
-                it[rowIndex].toIntOrNull() ?: return@mapNotNull null
-            }, operator)
-        }
-
-        return CephalodMaths(problems)
-    }
 }
