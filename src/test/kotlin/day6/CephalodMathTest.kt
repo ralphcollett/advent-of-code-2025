@@ -54,12 +54,4 @@ class CephalodMathTest {
 
         assertEquals(4277556, calculation)
     }
-
-    private fun calculate(cephalodMath: CephalodMath): Int {
-        return cephalodMath.problems.sumOf { (numbers, operator) ->
-            numbers.reduce { acc, i ->
-                operator.operate(acc, i)
-            }
-        }
-    }
 }

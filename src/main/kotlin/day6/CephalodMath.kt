@@ -18,3 +18,11 @@ data class CephalodMath(val problems: List<CephalodMathProblem>)
 fun solveMathHomework(puzzleInput: String): Int {
     TODO("Not yet implemented")
 }
+
+fun calculate(cephalodMath: CephalodMath): Int {
+    return cephalodMath.problems.sumOf { (numbers, operator) ->
+        numbers.reduce { acc, i ->
+            operator.operate(acc, i)
+        }
+    }
+}
