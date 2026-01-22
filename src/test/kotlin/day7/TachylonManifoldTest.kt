@@ -86,6 +86,27 @@ class TachylonManifoldTest {
         assertEquals(moved, moveDown(initial))
     }
 
+    @Test
+    fun `No change when all beams reach a splitter`() {
+        val initial = TachylonManifold(
+            listOf(
+                listOf(EMPTY, EMPTY, TACHYLON_BEAM, EMPTY, EMPTY),
+                listOf(EMPTY, TACHYLON_BEAM, SPLITTER, TACHYLON_BEAM, EMPTY),
+                listOf(SPLITTER, SPLITTER, SPLITTER, SPLITTER, SPLITTER),
+            )
+        )
+
+        val moved = TachylonManifold(
+            listOf(
+                listOf(EMPTY, EMPTY, TACHYLON_BEAM, EMPTY, EMPTY),
+                listOf(EMPTY, TACHYLON_BEAM, SPLITTER, TACHYLON_BEAM, EMPTY),
+                listOf(SPLITTER, SPLITTER, SPLITTER, SPLITTER, SPLITTER),
+            )
+        )
+
+        assertEquals(moved, moveDown(initial))
+    }
+
     private fun moveDown(initial: TachylonManifold): TachylonManifold {
         val grid = initial.grid
         val liveRowIndex = grid.indexOfLast { row -> row.any { it == TACHYLON_BEAM } }
