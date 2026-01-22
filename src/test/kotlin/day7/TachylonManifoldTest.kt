@@ -139,14 +139,3 @@ class TachylonManifoldTest {
         )
     }
 }
-
-private fun TachylonManifold.splits(): Int {
-    return grid.takeWhile { it.contains(TACHYLON_BEAM) }.mapIndexed { rowNumber, row ->
-        when {
-            rowNumber >= grid.size - 1 -> 0
-            else -> row.zip(grid[rowNumber + 1]).count { (currentRowCell, nextRowCell) ->
-                currentRowCell == TACHYLON_BEAM && nextRowCell == SPLITTER
-            }
-        }
-    }.sum()
-}
