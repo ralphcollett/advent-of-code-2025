@@ -1,6 +1,7 @@
 package day7
 
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class TachylonManifoldAcceptanceTest {
 
@@ -25,6 +26,6 @@ class TachylonManifoldAcceptanceTest {
             ...............
         """.trimIndent()
 
-        countSplits(puzzleInput)
+        assertEquals(21, countSplits(puzzleInput))
     }
 }
