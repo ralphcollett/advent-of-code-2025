@@ -8,7 +8,7 @@ import kotlin.test.assertNull
 class TachylonManifoldInputParserTest {
 
     enum class TachylonManifoldCell {
-        SPLITTER, EMPTY, TACHYLON_BEAM
+        SPLITTER, EMPTY, TACHYLON_BEAM_START_POSITION
     }
 
     data class TachylonManifold(val cells: List<List<TachylonManifoldCell>>)
@@ -26,7 +26,7 @@ class TachylonManifoldInputParserTest {
 
         val tachylonManifold = TachylonManifold(
             listOf(
-                listOf(EMPTY, EMPTY, EMPTY, TACHYLON_BEAM, EMPTY, EMPTY, EMPTY),
+                listOf(EMPTY, EMPTY, EMPTY, TACHYLON_BEAM_START_POSITION, EMPTY, EMPTY, EMPTY),
                 listOf(EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY),
                 listOf(EMPTY, EMPTY, EMPTY, SPLITTER, EMPTY, EMPTY, EMPTY),
                 listOf(EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY),
@@ -52,13 +52,13 @@ class TachylonManifoldInputParserTest {
         val cells = puzzleInput.split("\n").map { rowInput ->
             rowInput.map {
                 when (it) {
-                    'S' -> TACHYLON_BEAM
+                    'S' -> TACHYLON_BEAM_START_POSITION
                     '^' -> SPLITTER
                     else -> EMPTY
                 }
             }
         }
-        if (! cells.first().contains(TACHYLON_BEAM)) return null
+        if (! cells.first().contains(TACHYLON_BEAM_START_POSITION)) return null
         return TachylonManifold(cells)
     }
 }
