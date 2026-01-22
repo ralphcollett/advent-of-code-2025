@@ -36,6 +36,26 @@ class CephalodMathsInputParserTest {
         )
     }
 
+    @Test
+    fun `Ignores incomplete columns`() {
+        val puzzleInput = """
+            123 328  51 64 
+             45 64  387 
+              6 98  215 314
+            *   +   *   +   
+        """.trimIndent()
+
+        assertEquals(
+            CephalodMaths(
+                listOf(
+                    CephalodMathsProblem(listOf(123, 45, 6), MULTIPLICATION),
+                    CephalodMathsProblem(listOf(328, 64, 98), ADDITION),
+                    CephalodMathsProblem(listOf(51, 387, 215), MULTIPLICATION),
+                )
+            ), parse(puzzleInput)
+        )
+    }
+
     private fun parse(puzzleInput: String): CephalodMaths {
         val puzzleInputRows = puzzleInput.split("\n")
         val numberInputRows = puzzleInputRows.dropLast(1).map { it.trim().split("\\s+".toRegex()) }
@@ -45,7 +65,7 @@ class CephalodMathsInputParserTest {
                 else -> ADDITION
             }
         }
-        val maximumRowSize = numberInputRows.maxOf { it.size }
+        val maximumRowSize = numberInputRows.minOf { it.size }
         val problems = (0 until maximumRowSize).map { rowIndex ->
             CephalodMathsProblem(numberInputRows.mapNotNull { it[rowIndex].trim().toIntOrNull() }, operators[rowIndex])
         }
