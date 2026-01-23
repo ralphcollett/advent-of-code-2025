@@ -1,6 +1,5 @@
 package day9
 
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -8,7 +7,6 @@ import kotlin.test.assertEquals
 class MovieTheaterAcceptanceTest {
     
     @Test
-    @Ignore
     fun `Finds biggest rectangle with red tiles for corners`() {
         val puzzleInput = """
             7,1
@@ -25,5 +23,4 @@ class MovieTheaterAcceptanceTest {
 
         assertEquals(50, area)
     }
-
 }
