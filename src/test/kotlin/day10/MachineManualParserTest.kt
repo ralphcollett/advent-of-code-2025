@@ -5,19 +5,6 @@ import day10.IndicatorLightStates.ON
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-enum class IndicatorLightStates {
-    ON, OFF
-}
-
-typealias IndicatorLightDiagram = List<IndicatorLightStates>
-
-typealias ButtonWiringSchematic = List<Int>
-
-data class MachineManual(
-    val indicatorLightDiagram: IndicatorLightDiagram,
-    val buttonWiring: List<ButtonWiringSchematic>
-)
-
 class MachineManualParserTest {
 
     @Test
