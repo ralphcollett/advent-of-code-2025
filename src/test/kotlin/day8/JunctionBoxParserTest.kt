@@ -3,9 +3,7 @@ package day8
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class JunctionBoxParsingTest {
-
-    data class JunctionBox(val x: Int, val y: Int, val z: Int)
+class JunctionBoxParserTest {
 
     @Test
     fun `Parses a Junction Box from puzzle input`() {
@@ -55,14 +53,5 @@ class JunctionBoxParsingTest {
         )
 
         assertEquals(expected, parse(puzzleInput))
-    }
-
-    private fun parse(puzzleInput: String): List<JunctionBox> {
-        return puzzleInput.split("\n")
-            .mapNotNull { row -> row.split(",")
-                .mapNotNull { coordinate -> coordinate.toIntOrNull() }
-                .takeIf { it.size == 3 }
-            }
-            .map { (x, y, z) -> JunctionBox(x, y, z) }
     }
 }
