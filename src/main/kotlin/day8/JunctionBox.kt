@@ -3,7 +3,7 @@ package day8
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-typealias ConnectedJunctionBoxes = Pair<JunctionBox, JunctionBox>
+data class ConnectedJunctionBoxes(val junctionBoxA: JunctionBox, val junctionBoxB: JunctionBox)
 
 fun circuitSize(puzzleInput: String): Int {
     val junctionBoxes = parse(puzzleInput)
@@ -12,19 +12,31 @@ fun circuitSize(puzzleInput: String): Int {
 }
 
 fun makeCircuits(junctionBoxes: List<JunctionBox>, numberOfLightStrings: Int): JunctionBoxesCircuits {
+    val junctionBoxesCircuits = JunctionBoxesCircuits(junctionBoxes, emptyList())
+
+    return makeCircuits(junctionBoxesCircuits, numberOfLightStrings)
+}
+
+private fun makeCircuits(junctionBoxesCircuits: JunctionBoxesCircuits, numberOfLightStrings: Int): JunctionBoxesCircuits {
+    if (numberOfLightStrings == 0) return junctionBoxesCircuits
+
+    val (junctionBoxes, connectedJunctionBoxes) = junctionBoxesCircuits
     val minimumJunctionBoxes = junctionBoxes.withIndex().mapNotNull { (junctionBoxAIndex, junctionBoxA) ->
         junctionBoxes
+            .asSequence()
             .withIndex()
             .filterNot { it.index <= junctionBoxAIndex }
             .map {
                 val junctionBox = it.value
-                junctionBoxA to junctionBox to junctionBoxA.distanceTo(junctionBox)
-            }.minByOrNull { it.second }
+                ConnectedJunctionBoxes(junctionBoxA, junctionBox)
+            }.filterNot { it in connectedJunctionBoxes }
+            .map { it to it.junctionBoxA.distanceTo(it.junctionBoxB) }
+            .minByOrNull { it.second }
     }.minBy { it.second }.first
 
-    return JunctionBoxesCircuits(junctionBoxes, listOf(
-        minimumJunctionBoxes
-    ))
+    return makeCircuits(junctionBoxesCircuits.copy(
+        connectedJunctionBoxes = connectedJunctionBoxes + minimumJunctionBoxes
+    ), numberOfLightStrings - 1)
 }
 
 data class JunctionBoxesCircuits(val junctionBoxes: List<JunctionBox>, val connectedJunctionBoxes: List<ConnectedJunctionBoxes>)

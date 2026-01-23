@@ -16,7 +16,10 @@ class MakeConnectionsTest {
             junctionBoxes, 1
         )
 
-        val expected = JunctionBoxesCircuits(junctionBoxes, listOf(junctionBoxes[0] to junctionBoxes[1]))
+        val expected = JunctionBoxesCircuits(
+            junctionBoxes,
+            listOf(ConnectedJunctionBoxes(junctionBoxes[0], junctionBoxes[1]))
+        )
 
         assertEquals(expected, circuits)
     }
@@ -33,7 +36,36 @@ class MakeConnectionsTest {
             junctionBoxes, 1
         )
 
-        val expected = JunctionBoxesCircuits(junctionBoxes, listOf(JunctionBox(1, 1, 1) to JunctionBox(2, 2, 2)))
+        val expected = JunctionBoxesCircuits(
+            junctionBoxes,
+            listOf(
+                ConnectedJunctionBoxes(JunctionBox(1, 1, 1), JunctionBox(2, 2, 2))
+            )
+        )
+
+        assertEquals(expected, circuits)
+    }
+
+    @Test
+    fun `Finds multiple junction boxes`() {
+        val junctionBoxes = listOf(
+            JunctionBox(162, 817, 812),
+            JunctionBox(431, 825, 988),
+            JunctionBox(739, 650, 466),
+            JunctionBox(425, 690, 689)
+        )
+
+        val circuits = makeCircuits(
+            junctionBoxes, 2
+        )
+
+        val expected = JunctionBoxesCircuits(
+            junctionBoxes,
+            listOf(
+                ConnectedJunctionBoxes(JunctionBox(162, 817, 812), JunctionBox(425, 690, 689)),
+                ConnectedJunctionBoxes(JunctionBox(162, 817, 812), JunctionBox(431, 825, 988))
+            )
+        )
 
         assertEquals(expected, circuits)
     }
@@ -47,5 +79,4 @@ class MakeConnectionsTest {
 
         assertEquals(787.8, distance, absoluteTolerance = 0.1)
     }
-
 }
