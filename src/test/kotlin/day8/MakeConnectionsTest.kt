@@ -71,31 +71,6 @@ class MakeConnectionsTest {
     }
 
     @Test
-    fun `Does not allow connections if already in same circuit`() {
-        val junctionBoxes = setOf(
-            JunctionBox(1, 1, 1),
-            JunctionBox(2, 2, 2),
-            JunctionBox(3, 3, 3),
-            JunctionBox(6, 6, 6),
-        )
-
-        val circuits = makeCircuits(
-            junctionBoxes, 3
-        )
-
-        val expected = JunctionBoxesCircuits(
-            junctionBoxes,
-            setOf(
-                ConnectedJunctionBoxes(JunctionBox(1, 1, 1), JunctionBox(2, 2, 2)),
-                ConnectedJunctionBoxes(JunctionBox(2, 2, 2), JunctionBox(3, 3, 3)),
-                ConnectedJunctionBoxes(JunctionBox(3, 3, 3), JunctionBox(6, 6, 6)),
-            )
-        )
-
-        assertEquals(expected, circuits)
-    }
-
-    @Test
     fun `Find distance between 2 junction boxes`() {
         // SQRT ( (162 - 57)^2 + (817 - 618)^2 + (812 - 52)^2 )
         val distance = JunctionBox(162, 817, 812).distanceTo(

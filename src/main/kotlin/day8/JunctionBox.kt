@@ -16,6 +16,12 @@ data class ConnectedJunctionBoxes(val junctionBoxA: JunctionBox, val junctionBox
 
         return true
     }
+
+    override fun hashCode(): Int {
+        val h1 = junctionBoxA.hashCode()
+        val h2 = junctionBoxB.hashCode()
+        return if (h1 < h2) 31 * h1 + h2 else 31 * h2 + h1
+    }
 }
 
 fun circuitSize(puzzleInput: String): Int {
@@ -29,34 +35,33 @@ fun circuitSize(puzzleInput: String): Int {
 }
 
 fun makeCircuits(junctionBoxes: Set<JunctionBox>, numberOfLightStrings: Int): JunctionBoxesCircuits {
-    val junctionBoxesCircuits = JunctionBoxesCircuits(junctionBoxes, emptySet())
+    // 1. Generate all unique pairs and sort them by distance.
+    val allPossibleConnections = junctionBoxes
+        .asSequence()
+        .withIndex()
+        .flatMap { (i, jb1) ->
+            junctionBoxes.asSequence().withIndex()
+                .filter { (j, _) -> i < j }
+                .map { (_, jb2) -> ConnectedJunctionBoxes(jb1, jb2) }
+        }
+        .toList()
+        .sortedBy { it.junctionBoxA.distanceTo(it.junctionBoxB) }
 
-    return makeCircuits(junctionBoxesCircuits, numberOfLightStrings)
-}
+    // 2. Take only the top N connections to process.
+    val connectionsToProcess = allPossibleConnections.take(numberOfLightStrings)
 
-private fun makeCircuits(junctionBoxesCircuits: JunctionBoxesCircuits, numberOfLightStrings: Int): JunctionBoxesCircuits {
-    if (numberOfLightStrings == 0) return junctionBoxesCircuits
+    val finalConnectedJunctionBoxes = mutableSetOf<ConnectedJunctionBoxes>()
 
-    val (junctionBoxes, connectedJunctionBoxes) = junctionBoxesCircuits
-    val circuits = circuits(connectedJunctionBoxes)
-    val minimumJunctionBoxes = junctionBoxes.withIndex().mapNotNull { (junctionBoxAIndex, junctionBoxA) ->
-        junctionBoxes
-            .asSequence()
-            .withIndex()
-            .filterNot { it.index <= junctionBoxAIndex }
-            .map {
-                val junctionBox = it.value
-                ConnectedJunctionBoxes(junctionBoxA, junctionBox)
-            }.filterNot { (junctionBoxA, junctionBoxB) ->
-                circuits.any { circuit -> junctionBoxA in circuit && junctionBoxB in circuit }
-            }
-            .map { it to it.junctionBoxA.distanceTo(it.junctionBoxB) }
-            .minByOrNull { it.second }
-    }.minBy { it.second }.first
+    // 3. Iterate through just the top N connections and add them if valid.
+    for (connection in connectionsToProcess) {
+        // Check against the circuits formed by the connections added so far.
+        val currentCircuits = circuits(finalConnectedJunctionBoxes)
+        if (currentCircuits.none { it.contains(connection.junctionBoxA) && it.contains(connection.junctionBoxB) }) {
+            finalConnectedJunctionBoxes.add(connection)
+        }
+    }
 
-    return makeCircuits(junctionBoxesCircuits.copy(
-        connectedJunctionBoxes = connectedJunctionBoxes + minimumJunctionBoxes
-    ), numberOfLightStrings - 1)
+    return JunctionBoxesCircuits(junctionBoxes, finalConnectedJunctionBoxes)
 }
 
 data class JunctionBoxesCircuits(val junctionBoxes: Set<JunctionBox>, val connectedJunctionBoxes: Set<ConnectedJunctionBoxes>)

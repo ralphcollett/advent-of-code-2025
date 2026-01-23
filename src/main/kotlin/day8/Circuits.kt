@@ -11,7 +11,7 @@ private fun buildCircuits(connectedJunctionBoxes: Set<ConnectedJunctionBoxes>, c
 
     val connectedJunctionBox = connectedJunctionBoxes.first()
 
-    val updatedCircuits: Set<Set<JunctionBox>> =
+    val unmergedUpdatedCircuits: Set<Set<JunctionBox>> =
         when {
             circuits.none { circuit -> connectedJunctionBox.junctionBoxA in circuit || connectedJunctionBox.junctionBoxB in circuit }
                 -> circuits + setOf((setOf(connectedJunctionBox.junctionBoxA, connectedJunctionBox.junctionBoxB)))
@@ -20,6 +20,9 @@ private fun buildCircuits(connectedJunctionBoxes: Set<ConnectedJunctionBoxes>, c
                 else circuit
             }.toSet()
         }
+
+    val (circuitsToMerge, rest) = unmergedUpdatedCircuits.partition { circuit -> connectedJunctionBox.junctionBoxA in circuit && connectedJunctionBox.junctionBoxB in circuit }
+    val updatedCircuits = setOf(*rest.toTypedArray(), circuitsToMerge.flatten().toSet())
 
     return buildCircuits(connectedJunctionBoxes - connectedJunctionBox, updatedCircuits)
 }
