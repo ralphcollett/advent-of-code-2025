@@ -42,6 +42,21 @@ class JunctionBoxParsingTest {
         assertEquals(expected, parse(puzzleInput))
     }
 
+    @Test
+    fun `Ignores rows with missing coordinates characters`() {
+        val puzzleInput = """
+            162,817,812
+            618,57
+            57
+        """.trimIndent()
+
+        val expected = listOf(
+            JunctionBox(162, 817, 812),
+        )
+
+        assertEquals(expected, parse(puzzleInput))
+    }
+
     private fun parse(puzzleInput: String): List<JunctionBox> {
         return puzzleInput.split("\n")
             .mapNotNull { row -> row.split(",")
