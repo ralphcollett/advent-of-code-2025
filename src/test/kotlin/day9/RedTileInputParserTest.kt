@@ -5,8 +5,6 @@ import kotlin.test.assertEquals
 
 class RedTileInputParserTest {
 
-    data class TileDimensions(val x: Int, val y: Int)
-
     @Test
     fun `Parses red tile coordinates`() {
         val puzzleInput = """
@@ -16,9 +14,9 @@ class RedTileInputParserTest {
         """.trimIndent()
 
         assertEquals(listOf(
-            TileDimensions(7, 1),
-            TileDimensions(11, 1),
-            TileDimensions(11, 7)
+            Tile(7, 1),
+            Tile(11, 1),
+            Tile(11, 7)
         ), parse(puzzleInput))
     }
 
@@ -33,17 +31,17 @@ class RedTileInputParserTest {
         """.trimIndent()
 
         assertEquals(listOf(
-            TileDimensions(7, 1),
+            Tile(7, 1),
         ), parse(puzzleInput))
     }
 
-    private fun parse(puzzleInput: String): List<TileDimensions> {
+    private fun parse(puzzleInput: String): List<Tile> {
         return puzzleInput.split("\n").mapNotNull { row ->
             row.split(",")
                 .mapNotNull { it.toIntOrNull() }
                 .takeIf { it.size == 2 }
                 ?.let { (x, y) ->
-                    TileDimensions(x, y)
+                    Tile(x, y)
                 }
         }
     }
