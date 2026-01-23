@@ -17,5 +17,4 @@ class FactoryAcceptanceTest {
 
         assertEquals(7, presses)
     }
-
 }
