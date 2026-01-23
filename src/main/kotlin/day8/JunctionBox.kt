@@ -7,8 +7,12 @@ data class ConnectedJunctionBoxes(val junctionBoxA: JunctionBox, val junctionBox
 
 fun circuitSize(puzzleInput: String): Int {
     val junctionBoxes = parse(puzzleInput)
-    makeCircuits(junctionBoxes, 10)
-    TODO("Not yet implemented")
+    return circuits(
+        makeCircuits(junctionBoxes, 10).connectedJunctionBoxes)
+        .map { it.size }
+        .sortedDescending()
+        .take(3)
+        .reduce { acc, i -> acc * i }
 }
 
 fun makeCircuits(junctionBoxes: List<JunctionBox>, numberOfLightStrings: Int): JunctionBoxesCircuits {
