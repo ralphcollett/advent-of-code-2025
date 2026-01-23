@@ -14,7 +14,7 @@ class JunctionBoxParserTest {
             592,479,940
         """.trimIndent()
 
-        val expected = listOf(
+        val expected = setOf(
             JunctionBox(162, 817, 812),
             JunctionBox(57, 618, 57),
             JunctionBox(906, 360, 560),
@@ -33,7 +33,7 @@ class JunctionBoxParserTest {
             57,618,C
         """.trimIndent()
 
-        val expected = listOf(
+        val expected = setOf(
             JunctionBox(162, 817, 812),
         )
 
@@ -48,7 +48,7 @@ class JunctionBoxParserTest {
             57
         """.trimIndent()
 
-        val expected = listOf(
+        val expected = setOf(
             JunctionBox(162, 817, 812),
         )
 

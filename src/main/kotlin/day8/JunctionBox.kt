@@ -3,7 +3,20 @@ package day8
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-data class ConnectedJunctionBoxes(val junctionBoxA: JunctionBox, val junctionBoxB: JunctionBox)
+data class ConnectedJunctionBoxes(val junctionBoxA: JunctionBox, val junctionBoxB: JunctionBox) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ConnectedJunctionBoxes
+
+        if (junctionBoxA != other.junctionBoxA && junctionBoxA != other.junctionBoxB) return false
+        if (junctionBoxB != other.junctionBoxB && junctionBoxB != other.junctionBoxA) return false
+
+        return true
+    }
+}
 
 fun circuitSize(puzzleInput: String): Int {
     val junctionBoxes = parse(puzzleInput)
@@ -15,8 +28,8 @@ fun circuitSize(puzzleInput: String): Int {
         .reduce { acc, i -> acc * i }
 }
 
-fun makeCircuits(junctionBoxes: List<JunctionBox>, numberOfLightStrings: Int): JunctionBoxesCircuits {
-    val junctionBoxesCircuits = JunctionBoxesCircuits(junctionBoxes, emptyList())
+fun makeCircuits(junctionBoxes: Set<JunctionBox>, numberOfLightStrings: Int): JunctionBoxesCircuits {
+    val junctionBoxesCircuits = JunctionBoxesCircuits(junctionBoxes, emptySet())
 
     return makeCircuits(junctionBoxesCircuits, numberOfLightStrings)
 }
@@ -46,7 +59,7 @@ private fun makeCircuits(junctionBoxesCircuits: JunctionBoxesCircuits, numberOfL
     ), numberOfLightStrings - 1)
 }
 
-data class JunctionBoxesCircuits(val junctionBoxes: List<JunctionBox>, val connectedJunctionBoxes: List<ConnectedJunctionBoxes>)
+data class JunctionBoxesCircuits(val junctionBoxes: Set<JunctionBox>, val connectedJunctionBoxes: Set<ConnectedJunctionBoxes>)
 
 data class JunctionBox(val x: Int, val y: Int, val z: Int)
 

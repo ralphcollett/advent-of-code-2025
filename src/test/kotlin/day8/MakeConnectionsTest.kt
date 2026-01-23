@@ -7,7 +7,7 @@ class MakeConnectionsTest {
 
     @Test
     fun `Makes connections when 1 light`() {
-        val junctionBoxes = listOf(
+        val junctionBoxes = setOf(
             JunctionBox(1, 1, 1),
             JunctionBox(2, 2, 2)
         )
@@ -18,7 +18,7 @@ class MakeConnectionsTest {
 
         val expected = JunctionBoxesCircuits(
             junctionBoxes,
-            listOf(ConnectedJunctionBoxes(junctionBoxes[0], junctionBoxes[1]))
+            setOf(ConnectedJunctionBoxes(JunctionBox(1, 1, 1), JunctionBox(2, 2, 2)))
         )
 
         assertEquals(expected, circuits)
@@ -26,7 +26,7 @@ class MakeConnectionsTest {
 
     @Test
     fun `Chooses the shortest distance between 2 junction boxes`() {
-        val junctionBoxes = listOf(
+        val junctionBoxes = setOf(
             JunctionBox(162, 817, 812),
             JunctionBox(1, 1, 1),
             JunctionBox(2, 2, 2),
@@ -38,7 +38,7 @@ class MakeConnectionsTest {
 
         val expected = JunctionBoxesCircuits(
             junctionBoxes,
-            listOf(
+            setOf(
                 ConnectedJunctionBoxes(JunctionBox(1, 1, 1), JunctionBox(2, 2, 2))
             )
         )
@@ -48,7 +48,7 @@ class MakeConnectionsTest {
 
     @Test
     fun `Finds multiple junction boxes`() {
-        val junctionBoxes = listOf(
+        val junctionBoxes = setOf(
             JunctionBox(162, 817, 812),
             JunctionBox(431, 825, 988),
             JunctionBox(739, 650, 466),
@@ -61,7 +61,7 @@ class MakeConnectionsTest {
 
         val expected = JunctionBoxesCircuits(
             junctionBoxes,
-            listOf(
+            setOf(
                 ConnectedJunctionBoxes(JunctionBox(162, 817, 812), JunctionBox(425, 690, 689)),
                 ConnectedJunctionBoxes(JunctionBox(162, 817, 812), JunctionBox(431, 825, 988))
             )
@@ -72,7 +72,7 @@ class MakeConnectionsTest {
 
     @Test
     fun `Does not allow connections if already in same circuit`() {
-        val junctionBoxes = listOf(
+        val junctionBoxes = setOf(
             JunctionBox(1, 1, 1),
             JunctionBox(2, 2, 2),
             JunctionBox(3, 3, 3),
@@ -85,7 +85,7 @@ class MakeConnectionsTest {
 
         val expected = JunctionBoxesCircuits(
             junctionBoxes,
-            listOf(
+            setOf(
                 ConnectedJunctionBoxes(JunctionBox(1, 1, 1), JunctionBox(2, 2, 2)),
                 ConnectedJunctionBoxes(JunctionBox(2, 2, 2), JunctionBox(3, 3, 3)),
                 ConnectedJunctionBoxes(JunctionBox(3, 3, 3), JunctionBox(6, 6, 6)),

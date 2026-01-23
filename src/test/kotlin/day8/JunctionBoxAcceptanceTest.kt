@@ -1,13 +1,11 @@
 package day8
 
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class JunctionBoxAcceptanceTest {
 
     @Test
-    @Ignore
     fun `Circuit size`() {
     val puzzleInput = """
             162,817,812
