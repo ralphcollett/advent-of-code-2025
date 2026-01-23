@@ -21,6 +21,7 @@ private fun makeCircuits(junctionBoxesCircuits: JunctionBoxesCircuits, numberOfL
     if (numberOfLightStrings == 0) return junctionBoxesCircuits
 
     val (junctionBoxes, connectedJunctionBoxes) = junctionBoxesCircuits
+    val circuits = circuits(connectedJunctionBoxes)
     val minimumJunctionBoxes = junctionBoxes.withIndex().mapNotNull { (junctionBoxAIndex, junctionBoxA) ->
         junctionBoxes
             .asSequence()
@@ -29,7 +30,9 @@ private fun makeCircuits(junctionBoxesCircuits: JunctionBoxesCircuits, numberOfL
             .map {
                 val junctionBox = it.value
                 ConnectedJunctionBoxes(junctionBoxA, junctionBox)
-            }.filterNot { it in connectedJunctionBoxes }
+            }.filterNot { (junctionBoxA, junctionBoxB) ->
+                circuits.any { circuit -> junctionBoxA in circuit && junctionBoxB in circuit }
+            }
             .map { it to it.junctionBoxA.distanceTo(it.junctionBoxB) }
             .minByOrNull { it.second }
     }.minBy { it.second }.first

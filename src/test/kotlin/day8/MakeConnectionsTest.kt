@@ -72,7 +72,27 @@ class MakeConnectionsTest {
 
     @Test
     fun `Does not allow connections if already in same circuit`() {
+        val junctionBoxes = listOf(
+            JunctionBox(1, 1, 1),
+            JunctionBox(2, 2, 2),
+            JunctionBox(3, 3, 3),
+            JunctionBox(6, 6, 6),
+        )
 
+        val circuits = makeCircuits(
+            junctionBoxes, 3
+        )
+
+        val expected = JunctionBoxesCircuits(
+            junctionBoxes,
+            listOf(
+                ConnectedJunctionBoxes(JunctionBox(1, 1, 1), JunctionBox(2, 2, 2)),
+                ConnectedJunctionBoxes(JunctionBox(2, 2, 2), JunctionBox(3, 3, 3)),
+                ConnectedJunctionBoxes(JunctionBox(3, 3, 3), JunctionBox(6, 6, 6)),
+            )
+        )
+
+        assertEquals(expected, circuits)
     }
 
     @Test
