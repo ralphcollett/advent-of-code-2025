@@ -1,6 +1,5 @@
 package day8
 
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -23,7 +22,6 @@ class MakeConnectionsTest {
     }
 
     @Test
-    @Ignore
     fun `Chooses the shortest distance between 2 junction boxes`() {
         val junctionBoxes = listOf(
             JunctionBox(162, 817, 812),

@@ -12,8 +12,18 @@ fun circuitSize(puzzleInput: String): Int {
 }
 
 fun makeCircuits(junctionBoxes: List<JunctionBox>, numberOfLightStrings: Int): JunctionBoxesCircuits {
+    val minimumJunctionBoxes = junctionBoxes.withIndex().mapNotNull { (junctionBoxAIndex, junctionBoxA) ->
+        junctionBoxes
+            .withIndex()
+            .filterNot { it.index <= junctionBoxAIndex }
+            .map {
+                val junctionBox = it.value
+                junctionBoxA to junctionBox to junctionBoxA.distanceTo(junctionBox)
+            }.minByOrNull { it.second }
+    }.minBy { it.second }.first
+
     return JunctionBoxesCircuits(junctionBoxes, listOf(
-        junctionBoxes[0] to junctionBoxes[1]
+        minimumJunctionBoxes
     ))
 }
 
