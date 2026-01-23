@@ -22,7 +22,7 @@ data class MachineManual(
     val buttonWiring: List<ButtonWiringSchematic>
 )
 
-class Machine private constructor(val indicatorLights: IndicatorLightDiagram) {
+data class Machine private constructor(val indicatorLights: IndicatorLightDiagram) {
 
     constructor(indicatorLineCount: Int) : this(List(indicatorLineCount) { OFF })
 
@@ -37,11 +37,23 @@ class Machine private constructor(val indicatorLights: IndicatorLightDiagram) {
         )
     }
 
-    fun findFewestPressesToMeetIndicatorDiagram(manual: MachineManual): Int {
+    fun findFewestPressesToMeetIndicatorDiagram(manual: MachineManual): Int? {
         val (indicatorLightDiagram, buttonWiring) = manual
-        return when (indicatorLightDiagram) {
-            indicatorLights -> 0
-            else -> 1
+
+        fun count(machine: Machine, lightSwitchCount: Int, previousMachines: List<Machine>): Int? {
+            return buttonWiring.mapNotNull { buttonWiringSchematic ->
+                val toggledMachine =
+                    buttonWiringSchematic.fold(machine) { machine, lightIndex -> machine.toggle(lightIndex) }
+                when {
+                    (toggledMachine.indicatorLights == indicatorLightDiagram) -> lightSwitchCount + 1
+                    toggledMachine in previousMachines -> null
+                    else -> count(toggledMachine, lightSwitchCount + 1, previousMachines + toggledMachine)
+                }
+            }.minOrNull()
+        }
+        return when (indicatorLights) {
+            indicatorLightDiagram -> 0
+            else -> count(this, 0, listOf(this))
         }
     }
 }

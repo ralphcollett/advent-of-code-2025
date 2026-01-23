@@ -53,4 +53,16 @@ class MachineTest {
 
         assertEquals(1, buttonPresses)
     }
+
+    @Test
+    fun `Finds fewest presses when multiple options`() {
+        val buttonPresses = Machine(4).findFewestPressesToMeetIndicatorDiagram(
+            MachineManual(
+                listOf(OFF, ON, ON, OFF),
+                listOf(listOf(3), listOf(1, 3), listOf(2), listOf(2, 3), listOf(0, 2), listOf(0, 1))
+            )
+        )
+
+        assertEquals(2, buttonPresses)
+    }
 }
