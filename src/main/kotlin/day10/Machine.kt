@@ -36,4 +36,12 @@ class Machine private constructor(val indicatorLights: IndicatorLightDiagram) {
             }
         )
     }
+
+    fun findFewestPressesToMeetIndicatorDiagram(manual: MachineManual): Int {
+        val (indicatorLightDiagram, buttonWiring) = manual
+        return when (indicatorLightDiagram) {
+            indicatorLights -> 0
+            else -> 1
+        }
+    }
 }

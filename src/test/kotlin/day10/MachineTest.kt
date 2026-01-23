@@ -29,4 +29,28 @@ class MachineTest {
 
         assertEquals(listOf(OFF, OFF, OFF), machine.indicatorLights)
     }
+
+    @Test
+    fun `Knows need no button presses when all lights off in diagram`() {
+        val buttonPresses = Machine(4).findFewestPressesToMeetIndicatorDiagram(
+            MachineManual(
+                listOf(OFF, OFF, OFF, OFF),
+                listOf(listOf(2))
+            )
+        )
+
+        assertEquals(0, buttonPresses)
+    }
+
+    @Test
+    fun `Finds fewest button presses to meet an indicator light diagram when one`() {
+        val buttonPresses = Machine(4).findFewestPressesToMeetIndicatorDiagram(
+            MachineManual(
+                listOf(OFF, OFF, ON, OFF),
+                listOf(listOf(2))
+            )
+        )
+
+        assertEquals(1, buttonPresses)
+    }
 }
