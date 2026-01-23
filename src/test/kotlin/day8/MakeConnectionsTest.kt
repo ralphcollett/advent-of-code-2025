@@ -84,44 +84,4 @@ class MakeConnectionsTest {
 
         assertEquals(787.8, distance, absoluteTolerance = 0.1)
     }
-
-    @Test
-    fun `Finds circuits`() {
-        val connectedJunctionBoxes = listOf(
-            ConnectedJunctionBoxes(JunctionBox(1, 1, 1), JunctionBox(2, 2, 2)),
-            ConnectedJunctionBoxes(JunctionBox(2, 2, 2), JunctionBox(3, 3, 3)),
-            ConnectedJunctionBoxes(JunctionBox(4, 4, 4), JunctionBox(5, 5, 5)),
-        )
-
-        val circuits = circuits(connectedJunctionBoxes)
-
-        assertEquals(
-            listOf(
-                setOf(JunctionBox(1, 1, 1), JunctionBox(2, 2, 2), JunctionBox(3, 3, 3)),
-                setOf(JunctionBox(4, 4, 4), JunctionBox(5, 5, 5)),
-            ), circuits
-        )
-    }
-
-    private fun circuits(connectedJunctionBoxes: List<ConnectedJunctionBoxes>): List<Set<JunctionBox>> {
-        return buildCircuits(connectedJunctionBoxes, emptyList())
-    }
-
-    private fun buildCircuits(connectedJunctionBoxes: List<ConnectedJunctionBoxes>, circuits: List<Set<JunctionBox>>): List<Set<JunctionBox>> {
-        if (connectedJunctionBoxes.isEmpty()) return circuits
-
-        val connectedJunctionBox = connectedJunctionBoxes.first()
-
-        val updatedCircuits: List<Set<JunctionBox>> =
-            when {
-                circuits.none { circuit -> connectedJunctionBox.junctionBoxA in circuit || connectedJunctionBox.junctionBoxB in circuit }
-                    -> circuits + setOf((setOf(connectedJunctionBox.junctionBoxA, connectedJunctionBox.junctionBoxB)))
-                else -> circuits.map { circuit ->
-                    if (circuit.any { it == connectedJunctionBox.junctionBoxA || it == connectedJunctionBox.junctionBoxB }) circuit + connectedJunctionBox.junctionBoxA + connectedJunctionBox.junctionBoxB
-                    else circuit
-                }
-            }
-
-        return buildCircuits(connectedJunctionBoxes - connectedJunctionBox, updatedCircuits)
-    }
 }
