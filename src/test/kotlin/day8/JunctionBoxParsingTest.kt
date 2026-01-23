@@ -26,11 +26,28 @@ class JunctionBoxParsingTest {
         assertEquals(expected, parse(puzzleInput))
     }
 
+    @Test
+    fun `Ignores rows with invalid characters`() {
+        val puzzleInput = """
+            162,817,812
+            A,618,57
+            57,B,57
+            57,618,C
+        """.trimIndent()
+
+        val expected = listOf(
+            JunctionBox(162, 817, 812),
+        )
+
+        assertEquals(expected, parse(puzzleInput))
+    }
+
     private fun parse(puzzleInput: String): List<JunctionBox> {
-        return puzzleInput.split("\n").map { row ->
-            row.split(",").let { (x, y, z) ->
-                JunctionBox(x.toInt(), y.toInt(), z.toInt())
+        return puzzleInput.split("\n")
+            .mapNotNull { row -> row.split(",")
+                .mapNotNull { coordinate -> coordinate.toIntOrNull() }
+                .takeIf { it.size == 3 }
             }
-        }
+            .map { (x, y, z) -> JunctionBox(x, y, z) }
     }
 }
