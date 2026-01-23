@@ -1,7 +1,7 @@
 package day10
 
-import day10.IndicatorLightStates.OFF
-import day10.IndicatorLightStates.ON
+import day10.IndicatorLightState.OFF
+import day10.IndicatorLightState.ON
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

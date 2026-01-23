@@ -1,12 +1,19 @@
 package day10
 
-import day10.IndicatorLightStates.OFF
+import day10.IndicatorLightState.OFF
 
-enum class IndicatorLightStates {
-    ON, OFF
+enum class IndicatorLightState {
+    ON {
+        override fun toggle(): IndicatorLightState = OFF
+    },
+    OFF {
+        override fun toggle(): IndicatorLightState = ON
+    };
+
+    abstract fun toggle(): IndicatorLightState
 }
 
-typealias IndicatorLightDiagram = List<IndicatorLightStates>
+typealias IndicatorLightDiagram = List<IndicatorLightState>
 
 typealias ButtonWiringSchematic = List<Int>
 
@@ -15,7 +22,18 @@ data class MachineManual(
     val buttonWiring: List<ButtonWiringSchematic>
 )
 
-data class Machine(private val indicatorLineCount: Int) {
+class Machine private constructor(val indicatorLights: IndicatorLightDiagram) {
 
-    val indicatorLights = List(3){ OFF}
+    constructor(indicatorLineCount: Int) : this(List(indicatorLineCount) { OFF })
+
+    fun toggle(indicatorLightPosition: Int): Machine {
+        return Machine(
+            indicatorLights.mapIndexed { index, currentLightStatus ->
+                when (index) {
+                    indicatorLightPosition -> currentLightStatus.toggle()
+                    else -> currentLightStatus
+                }
+            }
+        )
+    }
 }
