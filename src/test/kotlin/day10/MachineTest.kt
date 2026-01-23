@@ -20,4 +20,13 @@ class MachineTest {
 
         assertEquals(listOf(OFF, OFF, ON, OFF), machine.indicatorLights)
     }
+
+    @Test
+    fun `Can toggle a light off`() {
+        val machine = Machine(3)
+            .toggle(1)
+            .toggle(1)
+
+        assertEquals(listOf(OFF, OFF, OFF), machine.indicatorLights)
+    }
 }
