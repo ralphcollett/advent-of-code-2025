@@ -22,11 +22,29 @@ class RedTileInputParserTest {
         ), parse(puzzleInput))
     }
 
+    @Test
+    fun `Ignores invalid coordinates`() {
+        val puzzleInput = """
+            7,1
+            9,1,12
+            x,1
+            11,y
+            23
+        """.trimIndent()
+
+        assertEquals(listOf(
+            TileDimensions(7, 1),
+        ), parse(puzzleInput))
+    }
+
     private fun parse(puzzleInput: String): List<TileDimensions> {
-        return puzzleInput.split("\n").map { row ->
-            row.split(",").map { it.toInt() }.let { (x, y) ->
-                TileDimensions(x, y)
-            }
+        return puzzleInput.split("\n").mapNotNull { row ->
+            row.split(",")
+                .mapNotNull { it.toIntOrNull() }
+                .takeIf { it.size == 2 }
+                ?.let { (x, y) ->
+                    TileDimensions(x, y)
+                }
         }
     }
 }
