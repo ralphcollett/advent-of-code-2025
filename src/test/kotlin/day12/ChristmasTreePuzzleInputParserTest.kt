@@ -78,6 +78,22 @@ class ChristmasTreePuzzleInputParserTest {
         assertNull(actual)
     }
 
+    @Test
+    fun `Shape rows have same elements in each row`() {
+        val puzzleInput = """
+            0:
+            ####
+            ##....
+            ##
+
+            4x4: 0
+        """.trimIndent()
+
+        val actual = parse(puzzleInput)
+
+        assertNull(actual)
+    }
+
 
     private fun parse(puzzleInput: String): ChristmasTreePuzzleInput? {
         val presentsInputSection = puzzleInput.substringBeforeLast("\n\n").split("\n\n")
@@ -92,9 +108,9 @@ class ChristmasTreePuzzleInputParserTest {
                         '.' -> EMPTY
                         else -> return null
                     }
-
                 }
-            }
+            }.takeIf { rows -> rows.distinctBy { it.size }.size == 1 } ?: return null
+
             Present(presentIndex, shape)
         }
 
