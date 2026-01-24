@@ -27,4 +27,20 @@ class MachineManualParserTest {
         assertEquals(expectedManual, parse(puzzleInput))
     }
 
+    @Test
+    fun `Ignores lights with missing indicator light configurations`() {
+        val puzzleInput = """
+            [.##.] (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
+            (3) (1,3) (2) (2,3) (0,2) (0,1) {3,5,4,7}
+        """.trimIndent()
+
+        val expectedManual = listOf(
+            MachineManual(
+                listOf(OFF, ON, ON, OFF),
+                listOf(listOf(3), listOf(1, 3), listOf(2), listOf(2, 3), listOf(0, 2), listOf(0, 1))
+            )
+        )
+
+        assertEquals(expectedManual, parse(puzzleInput))
+    }
 }

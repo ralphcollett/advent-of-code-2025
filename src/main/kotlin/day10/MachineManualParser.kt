@@ -1,7 +1,7 @@
 package day10
 
 fun parse(puzzleInput: String): List<MachineManual> {
-    return puzzleInput.split("\n").map { machineInput ->
+    return puzzleInput.split("\n").mapNotNull { machineInput ->
         val indicatorLightInput = machineInput.substringAfter("[").substringBefore("]")
         val indicatorLightDiagram = indicatorLightInput.mapNotNull {
             when (it) {
@@ -9,7 +9,7 @@ fun parse(puzzleInput: String): List<MachineManual> {
                 '#' -> IndicatorLightState.ON
                 else -> null
             }
-        }
+        }.takeIf { it.isNotEmpty() } ?: return@mapNotNull null
         val buttonWiringInputs = machineInput.substringAfter("]").substringBefore("{").trim().split("\\s+".toRegex())
         val buttonWiring = buttonWiringInputs.map { buttonWiringInput ->
             buttonWiringInput.substringAfter("(").substringBefore(")").split(",").mapNotNull {
