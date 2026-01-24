@@ -29,9 +29,26 @@ class MachinesInputParserTest {
         )
     }
 
+    @Test
+    fun `Ignores machines with missing name`() {
+        val devices = parse(
+            """
+            aaa: you hhh
+            ddd eee
+        """.trimIndent()
+        )
+
+        assertEquals(
+            listOf(
+                Device("aaa", listOf("you", "hhh")),
+            ),
+            devices
+        )
+    }
+
     private fun parse(puzzleInput: String): List<Device> {
-        return puzzleInput.split("\n").map { deviceInput ->
-            val name = deviceInput.substringBefore(":")
+        return puzzleInput.split("\n").mapNotNull { deviceInput ->
+            val name = deviceInput.substringBefore(":", "")?.takeIf { it.isNotEmpty() } ?: return@mapNotNull null
             val connectedDeviceNames = deviceInput.substringAfter(": ").split(" ")
             Device(
                 name,
