@@ -70,6 +70,8 @@ data class ChristmasTreePuzzleInput(
     val regions: List<RegionUnderTreePuzzleInput>
 )
 
+fun <T> List<List<T>>.rotateClockwise(): List<List<T>> = List(maxOf { it.size }) { x -> List( size ) { y -> get(y)[x] } }
+
 fun countRegionsThatCanFitAllPresents(puzzleInput: String): Int {
     TODO("Not yet implemented")
 }

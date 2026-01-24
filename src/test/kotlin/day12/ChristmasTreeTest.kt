@@ -2,6 +2,7 @@ package day12
 
 import day12.PresentShapeCell.EMPTY
 import day12.PresentShapeCell.PART_OF_SHAPE
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -83,6 +84,23 @@ class ChristmasTreeTest {
         assertEquals(listOf(
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
+        ), regionWithPresent?.units)
+    }
+
+    @Test
+    @Ignore
+    fun `Can rotate a shape to insert`() {
+        val present = listOf(
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE),
+            listOf(PART_OF_SHAPE, EMPTY),
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE)
+        )
+
+        val regionWithPresent = RegionUnderTree(3, 2).insert(present)
+
+        assertEquals(listOf(
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
+            listOf(PART_OF_SHAPE, EMPTY, PART_OF_SHAPE),
         ), regionWithPresent?.units)
     }
 }
