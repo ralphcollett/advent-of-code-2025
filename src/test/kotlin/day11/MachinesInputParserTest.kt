@@ -3,8 +3,6 @@ package day11
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-data class Device(val name: String, val connectedDeviceNames: List<String>)
-
 class MachinesInputParserTest {
 
     @Test
@@ -46,14 +44,4 @@ class MachinesInputParserTest {
         )
     }
 
-    private fun parse(puzzleInput: String): List<Device> {
-        return puzzleInput.split("\n").mapNotNull { deviceInput ->
-            val name = deviceInput.substringBefore(":", "")?.takeIf { it.isNotEmpty() } ?: return@mapNotNull null
-            val connectedDeviceNames = deviceInput.substringAfter(": ").split(" ")
-            Device(
-                name,
-                connectedDeviceNames
-            )
-        }
-    }
 }
