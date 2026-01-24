@@ -1,22 +1,12 @@
 package day12
 
-import day12.ChristmasTreePuzzleInputParserTest.PresentShapeCell.EMPTY
-import day12.ChristmasTreePuzzleInputParserTest.PresentShapeCell.PART_OF_SHAPE
+import day12.PresentShapeCell.EMPTY
+import day12.PresentShapeCell.PART_OF_SHAPE
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class ChristmasTreePuzzleInputParserTest {
-
-    enum class PresentShapeCell {
-        PART_OF_SHAPE, EMPTY
-    }
-
-    data class Present(val index: Int, val shape: List<List<PresentShapeCell>>)
-
-    data class RegionUnderTree(val width: Int, val height: Int, val quantityOfPresents: List<Int>)
-
-    data class ChristmasTreePuzzleInput(val presents: List<Present>, val regions: List<RegionUnderTree>)
 
     @Test
     fun `Parses input`() {
@@ -138,35 +128,4 @@ class ChristmasTreePuzzleInputParserTest {
         assertNull(actual)
     }
 
-    private fun parse(puzzleInput: String): ChristmasTreePuzzleInput? {
-        val presentsInputSection = puzzleInput.substringBeforeLast("\n\n").split("\n\n")
-        val presents = presentsInputSection.map { presentInputSection ->
-            val presentIndexRow = presentInputSection.substringBefore("\n")
-            val presentIndex = presentIndexRow.substringBefore(":").toInt()
-            val presentShapeRows = presentInputSection.substringAfter("\n").split("\n")
-            val shape = presentShapeRows.map { presentShapeRow ->
-                presentShapeRow.map { presentShapeCell ->
-                    when (presentShapeCell) {
-                        '#' -> PART_OF_SHAPE
-                        '.' -> EMPTY
-                        else -> return null
-                    }
-                }
-            }.takeIf { rows -> rows.distinctBy { it.size }.size == 1 } ?: return null
-
-            Present(presentIndex, shape)
-        }.takeIf { present ->
-            val indexes = present.map { it.index }
-            indexes == List(indexes.size) { it }
-        } ?: return null
-
-        val regionsInputSection = puzzleInput.substringAfterLast("\n\n")
-        val regionsUnderTree = regionsInputSection.split("\n").map { regionInputSection ->
-            val (width, height) = regionInputSection.substringBefore(":").split("x").map { it.toInt() }
-            val quantityOfPresents = regionInputSection.substringAfter(" ").split(" ").map { it.toInt() }
-            RegionUnderTree(width, height, quantityOfPresents)
-        }.takeIf { regions -> regions.all { it.quantityOfPresents.size == presents.size } } ?: return null
-
-        return ChristmasTreePuzzleInput(presents, regionsUnderTree)
-    }
 }
