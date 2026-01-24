@@ -16,10 +16,16 @@ class RegionUnderTree private constructor(val units: List<List<PresentShapeCell>
     private val width = units.first().size
 
     fun insert(present: List<List<PresentShapeCell>>): List<RegionUnderTree> {
-        val shapeRotations = generateSequence(present) { it.rotateClockwise() }.take(4).distinct()
+        fun generateAllSymmetries(shape: List<List<PresentShapeCell>>): Sequence<List<List<PresentShapeCell>>> {
+            val rotations = generateSequence(shape) { it.rotateClockwise() }.take(4)
+            val flippedRotations = generateSequence(shape.flipHorizontal()) { it.rotateClockwise() }.take(4)
+            return (rotations + flippedRotations).distinct()
+        }
+
+        val allSymmetries = generateAllSymmetries(present).toList()
         return (0..height).flatMap { y ->
             (0..width).flatMap { x ->
-                shapeRotations.map { shapeRotation ->
+                allSymmetries.map { shapeRotation ->
                     insertAtPosition(shapeRotation, x, y)
                 }
             }
@@ -92,6 +98,7 @@ private fun countRegionsThatCanFitAllPresents(puzzleInput: ChristmasTreePuzzleIn
                 val presentInput = presentPuzzleInputs.find { it.index == index } ?: return@flatMap emptyList()
                 List(quantityOfPresents) { presentInput }
             }
+            .sortedByDescending { it.units.sumOf { row -> row.count { cell -> cell == PART_OF_SHAPE } } }
 
         regionsPuzzleInputs.fold(listOf(RegionUnderTree(regionInput.width, regionInput.height))) { regionUnderTree, puzzleInput ->
             regionUnderTree.flatMap { it.insert(puzzleInput.units) }

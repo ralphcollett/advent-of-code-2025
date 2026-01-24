@@ -19,4 +19,5 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs = listOf("-Xmx2g")
 }
