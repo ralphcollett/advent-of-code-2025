@@ -30,7 +30,7 @@ class ChristmasTreeTest {
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE)
         )
 
-        val regionWithPresent = RegionUnderTree(4, 3).insert(present)
+        val regionWithPresent = RegionUnderTree(4, 3).findAllPossibleInsertions(present)
 
         assertEquals(
             listOf(
@@ -50,9 +50,9 @@ class ChristmasTreeTest {
         )
 
         val regionWithPresent = RegionUnderTree(3, 3)
-            .insert(present)
+            .findAllPossibleInsertions(present)
             .first()
-            .insert(present)
+            .findAllPossibleInsertions(present)
 
         assertEquals(0, regionWithPresent.size)
     }
@@ -65,7 +65,7 @@ class ChristmasTreeTest {
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE)
         )
 
-        val regionWithPresent = RegionUnderTree(2, 2).insert(present)
+        val regionWithPresent = RegionUnderTree(2, 2).findAllPossibleInsertions(present)
 
         assertEquals(0, regionWithPresent.size)
     }
@@ -82,7 +82,7 @@ class ChristmasTreeTest {
             listOf(PART_OF_SHAPE, PART_OF_SHAPE),
         )
 
-        val regionWithPresent = RegionUnderTree(4, 2).insert(present1).first().insert(present2)
+        val regionWithPresent = RegionUnderTree(4, 2).findAllPossibleInsertions(present1).first().findAllPossibleInsertions(present2)
 
         assertEquals(
             listOf(
@@ -100,7 +100,7 @@ class ChristmasTreeTest {
             listOf(PART_OF_SHAPE, PART_OF_SHAPE)
         )
 
-        val regionWithPresent = RegionUnderTree(3, 2).insert(present)
+        val regionWithPresent = RegionUnderTree(3, 2).findAllPossibleInsertions(present)
 
         assertEquals(
             listOf(
@@ -116,7 +116,7 @@ class ChristmasTreeTest {
             listOf(PART_OF_SHAPE, EMPTY),
         )
 
-        val regionWithPresent = RegionUnderTree(2, 1).insert(present)
+        val regionWithPresent = RegionUnderTree(2, 1).findAllPossibleInsertions(present)
 
         assertEquals(
             listOf(

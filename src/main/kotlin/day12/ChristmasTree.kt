@@ -11,28 +11,22 @@ class RegionUnderTree private constructor(val units: List<List<PresentShapeCell>
 
     constructor(width: Int, height: Int): this(List(height) { List(width) { EMPTY } })
 
-    private val height = units.size
+    val height = units.size
 
-    private val width = units.first().size
+    val width = units.first().size
 
-    fun insert(present: List<List<PresentShapeCell>>): List<RegionUnderTree> {
-        fun generateAllSymmetries(shape: List<List<PresentShapeCell>>): Sequence<List<List<PresentShapeCell>>> {
-            val rotations = generateSequence(shape) { it.rotateClockwise() }.take(4)
-            val flippedRotations = generateSequence(shape.flipHorizontal()) { it.rotateClockwise() }.take(4)
-            return (rotations + flippedRotations).distinct()
-        }
-
-        val allSymmetries = generateAllSymmetries(present).toList()
+    fun findAllPossibleInsertions(present: List<List<PresentShapeCell>>): List<RegionUnderTree> {
+        val allSymmetries = generateAllSymmetries(present)
         return (0..height).flatMap { y ->
             (0..width).flatMap { x ->
                 allSymmetries.map { shapeRotation ->
-                    insertAtPosition(shapeRotation, x, y)
+                    tryInsertAtPosition(shapeRotation, x, y)
                 }
             }
         }.filterNotNull().distinct()
     }
 
-    private fun insertAtPosition(present: List<List<PresentShapeCell>>, x: Int, y: Int): RegionUnderTree? {
+    private fun tryInsertAtPosition(present: List<List<PresentShapeCell>>, x: Int, y: Int): RegionUnderTree? {
         val presentsHeight = present.size
         val presentsWidth = present.first().size
         if (presentsHeight + y > height || presentsWidth + x > width) return null
@@ -48,6 +42,10 @@ class RegionUnderTree private constructor(val units: List<List<PresentShapeCell>
             }
         }
         return RegionUnderTree(updatedUnits)
+    }
+
+    fun withPresentInserted(present: List<List<PresentShapeCell>>, x: Int, y: Int): RegionUnderTree? {
+        return tryInsertAtPosition(present, x, y)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -83,6 +81,31 @@ fun <T> List<List<T>>.rotateClockwise(): List<List<T>> =
 
 fun <T> List<List<T>>.flipHorizontal(): List<List<T>> = map { it.reversed() }
 
+private fun generateAllSymmetries(shape: List<List<PresentShapeCell>>): List<List<List<PresentShapeCell>>> {
+    val rotations = generateSequence(shape) { it.rotateClockwise() }.take(4)
+    val flippedRotations = generateSequence(shape.flipHorizontal()) { it.rotateClockwise() }.take(4)
+    return (rotations + flippedRotations).distinct().toList()
+}
+
+private fun canFitAllPresentsRecursive(currentRegion: RegionUnderTree, remainingPresents: List<PresentPuzzleInput>, symmetriesCache: Map<PresentPuzzleInput, List<List<List<PresentShapeCell>>>>): Boolean {
+    if (remainingPresents.isEmpty()) {
+        return true
+    }
+
+    val currentPresentInput = remainingPresents.first()
+    val presentSymmetries = symmetriesCache[currentPresentInput]
+        ?: generateAllSymmetries(currentPresentInput.units)
+
+    return (0 until currentRegion.height).any { y ->
+        (0 until currentRegion.width).any { x ->
+            presentSymmetries.any { shapeRotation ->
+                val nextRegion = currentRegion.withPresentInserted(shapeRotation, x, y)
+                nextRegion != null && canFitAllPresentsRecursive(nextRegion, remainingPresents.drop(1), symmetriesCache)
+            }
+        }
+    }
+}
+
 fun countRegionsThatCanFitAllPresents(puzzleInput: String): Int {
     return parse(puzzleInput)?.let { countRegionsThatCanFitAllPresents(it) } ?: return 0
 }
@@ -100,8 +123,15 @@ private fun countRegionsThatCanFitAllPresents(puzzleInput: ChristmasTreePuzzleIn
             }
             .sortedByDescending { it.units.sumOf { row -> row.count { cell -> cell == PART_OF_SHAPE } } }
 
-        regionsPuzzleInputs.fold(listOf(RegionUnderTree(regionInput.width, regionInput.height))) { regionUnderTree, puzzleInput ->
-            regionUnderTree.flatMap { it.insert(puzzleInput.units) }
-        }.isNotEmpty()
+        val presentSymmetriesCache = mutableMapOf<PresentPuzzleInput, List<List<List<PresentShapeCell>>>>()
+        presentPuzzleInputs.forEach { presentInput ->
+            presentSymmetriesCache[presentInput] = generateAllSymmetries(presentInput.units)
+        }
+
+        canFitAllPresentsRecursive(
+            RegionUnderTree(regionInput.width, regionInput.height),
+            regionsPuzzleInputs,
+            presentSymmetriesCache
+        )
     }
 }
