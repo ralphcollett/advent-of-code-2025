@@ -2,6 +2,7 @@ package day10
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class FactoryAcceptanceTest {
 
@@ -16,5 +17,17 @@ class FactoryAcceptanceTest {
         val presses = minimumButtonPresses(puzzleInput)
 
         assertEquals(7, presses)
+    }
+
+    @Test
+    fun `Null if no button preses possible for some machines`() {
+        val puzzleInput = """
+            [.##.] (3) (1,3) (0,1) {3,5,4,7}
+            [...#.] (0,2,3,4) (2,3) (0,4) (0,1,2) (1,2,3,4) {7,5,12,7,2}
+        """.trimIndent() // machine on top rows light diagram cannot be matches
+
+        val presses = minimumButtonPresses(puzzleInput)
+
+        assertNull(presses)
     }
 }
