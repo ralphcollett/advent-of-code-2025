@@ -15,7 +15,7 @@ class RegionUnderTree private constructor(val units: List<List<PresentShapeCell>
 
     private val width = units.first().size
 
-    fun insert(present: List<List<PresentShapeCell>>): RegionUnderTree? {
+    fun insert(present: List<List<PresentShapeCell>>): List<RegionUnderTree> {
         val shapeRotations = generateSequence(present) { present.rotateClockwise() }.take(4).distinct()
         return (0..height).flatMap { y ->
             (0..width).flatMap { x ->
@@ -23,7 +23,7 @@ class RegionUnderTree private constructor(val units: List<List<PresentShapeCell>
                     insertAtPosition(shapeRotation, x, y)
                 }
             }
-        }.filterNotNull().firstOrNull()
+        }.filterNotNull()
     }
 
     private fun insertAtPosition(present: List<List<PresentShapeCell>>, x: Int, y: Int): RegionUnderTree? {
@@ -68,7 +68,7 @@ data class RegionUnderTreePuzzleInput(val width: Int, val height: Int, val quant
 
 data class ChristmasTreePuzzleInput(
     val presentPuzzleInputs: List<PresentPuzzleInput>,
-    val regions: List<RegionUnderTreePuzzleInput>
+    val regionsInput: List<RegionUnderTreePuzzleInput>
 )
 
 fun <T> List<List<T>>.rotateClockwise(): List<List<T>> = List(maxOf { it.size }) { x -> List( size ) { y -> get(y)[x] } }

@@ -4,7 +4,6 @@ import day12.PresentShapeCell.EMPTY
 import day12.PresentShapeCell.PART_OF_SHAPE
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 class ChristmasTreeTest {
 
@@ -35,7 +34,7 @@ class ChristmasTreeTest {
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
             listOf(PART_OF_SHAPE, EMPTY, EMPTY, EMPTY),
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY)
-        ), regionWithPresent?.units)
+        ), regionWithPresent.first().units)
     }
 
     @Test
@@ -48,9 +47,10 @@ class ChristmasTreeTest {
 
         val regionWithPresent = RegionUnderTree(3, 3)
             .insert(present)
-            ?.insert(present)
+            .first()
+            .insert(present)
 
-        assertNull(regionWithPresent)
+        assertEquals(0, regionWithPresent.size)
     }
 
     @Test
@@ -63,7 +63,7 @@ class ChristmasTreeTest {
 
         val regionWithPresent = RegionUnderTree(2, 2).insert(present)
 
-        assertNull(regionWithPresent)
+        assertEquals(0, regionWithPresent.size)
     }
 
     @Test
@@ -78,12 +78,12 @@ class ChristmasTreeTest {
             listOf(PART_OF_SHAPE, PART_OF_SHAPE),
         )
 
-        val regionWithPresent = RegionUnderTree(4, 2).insert(present1)?.insert(present2)
+        val regionWithPresent = RegionUnderTree(4, 2).insert(present1).first().insert(present2)
 
         assertEquals(listOf(
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
-        ), regionWithPresent?.units)
+        ), regionWithPresent.first().units)
     }
 
     @Test
@@ -99,6 +99,6 @@ class ChristmasTreeTest {
         assertEquals(listOf(
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
             listOf(PART_OF_SHAPE, EMPTY, PART_OF_SHAPE),
-        ), regionWithPresent?.units)
+        ), regionWithPresent.first().units)
     }
 }

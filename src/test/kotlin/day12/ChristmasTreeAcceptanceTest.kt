@@ -49,5 +49,4 @@ class ChristmasTreeAcceptanceTest {
 
         assertEquals(2, regionsCount)
     }
-
 }
