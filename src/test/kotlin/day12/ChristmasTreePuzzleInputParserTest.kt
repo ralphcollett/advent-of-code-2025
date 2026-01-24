@@ -94,6 +94,27 @@ class ChristmasTreePuzzleInputParserTest {
         assertNull(actual)
     }
 
+    @Test
+    fun `Present indexes should be 0, 1, 2, etc`() {
+        val puzzleInput = """
+            0:
+            ###
+            ##.
+            ##.
+
+            12:
+            ###
+            ##.
+            .##
+
+            4x4: 0 2
+            12x5: 1 0
+        """.trimIndent()
+
+        val actual = parse(puzzleInput)
+
+        assertNull(actual)
+    }
 
     private fun parse(puzzleInput: String): ChristmasTreePuzzleInput? {
         val presentsInputSection = puzzleInput.substringBeforeLast("\n\n").split("\n\n")
@@ -112,7 +133,10 @@ class ChristmasTreePuzzleInputParserTest {
             }.takeIf { rows -> rows.distinctBy { it.size }.size == 1 } ?: return null
 
             Present(presentIndex, shape)
-        }
+        }.takeIf { present ->
+            val indexes = present.map { it.index }
+            indexes == List(indexes.size) { it }
+        } ?: return null
 
         val regionsInputSection = puzzleInput.substringAfterLast("\n\n")
         val regionsUnderTree = regionsInputSection.split("\n").map { regionInputSection ->
