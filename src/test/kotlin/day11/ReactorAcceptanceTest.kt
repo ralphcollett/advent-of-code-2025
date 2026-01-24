@@ -1,13 +1,11 @@
 package day11
 
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ReactorAcceptanceTest {
 
     @Test
-    @Ignore
     fun `Counts paths from you to out`() {
         val puzzleInput = """
             aaa: you hhh
