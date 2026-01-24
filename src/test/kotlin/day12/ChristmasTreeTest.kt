@@ -4,6 +4,7 @@ import day12.PresentShapeCell.EMPTY
 import day12.PresentShapeCell.PART_OF_SHAPE
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class ChristmasTreeTest {
 
@@ -22,13 +23,33 @@ class ChristmasTreeTest {
 
     @Test
     fun `Can put a present in a region when space`() {
-        val presentShape = listOf(
+        val present = listOf(
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
             listOf(PART_OF_SHAPE, EMPTY, EMPTY),
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE)
         )
 
-        val region = RegionUnderTree(4, 4)
+        val regionWithPresent = RegionUnderTree(4, 3).insert(present)
 
+        assertEquals(listOf(
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
+            listOf(PART_OF_SHAPE, EMPTY, EMPTY, EMPTY),
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY)
+        ), regionWithPresent?.units)
+    }
+
+    @Test
+    fun `Knows when cannot insert shape when note enough space`() {
+        val present = listOf(
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
+            listOf(PART_OF_SHAPE, EMPTY, EMPTY),
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE)
+        )
+
+        val regionWithPresent = RegionUnderTree(3, 3)
+            .insert(present)
+            ?.insert(present)
+
+        assertNull(regionWithPresent)
     }
 }
