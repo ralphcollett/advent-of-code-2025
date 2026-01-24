@@ -29,13 +29,13 @@ class ChristmasTreePuzzleInputParserTest {
 
         val expected = ChristmasTreePuzzleInput(
             listOf(
-                Present(
+                PresentPuzzleInput(
                     0, listOf(
                         listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
                         listOf(PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
                         listOf(PART_OF_SHAPE, PART_OF_SHAPE, EMPTY)
                     )
-                ), Present(
+                ), PresentPuzzleInput(
                     1, listOf(
                         listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
                         listOf(PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
@@ -44,8 +44,8 @@ class ChristmasTreePuzzleInputParserTest {
                 )
             ),
             listOf(
-                RegionUnderTree(width = 4, height = 4, listOf(0, 2)),
-                RegionUnderTree(width = 12, height = 5, listOf(1, 0))
+                RegionUnderTreePuzzleInput(width = 4, height = 4, listOf(0, 2)),
+                RegionUnderTreePuzzleInput(width = 12, height = 5, listOf(1, 0))
             )
         )
 
