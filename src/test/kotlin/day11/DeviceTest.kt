@@ -51,10 +51,16 @@ class DeviceTest {
         assertEquals(expectedPaths, paths)
     }
 
-    private fun pathsFromYouToEnd(devices: List<Device>): List<List<String>> {
-        return if ("end" in devices.find { it.name == "you" }?.connectedDeviceNames.orEmpty()) {
-            listOf(listOf("you", "end"))
-        } else
-            emptyList()
+    @Test
+    fun `Knows path from you to end with length of 2`() {
+        val devices = listOf(
+            Device("aaa", listOf("end", "hhhh")),
+            Device("you", listOf("aaa", "ggg")),
+        )
+
+        val paths = pathsFromYouToEnd(devices)
+
+        val expectedPaths = listOf(listOf("you", "aaa", "end"))
+        assertEquals(expectedPaths, paths)
     }
 }
