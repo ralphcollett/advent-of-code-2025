@@ -65,4 +65,24 @@ class ChristmasTreeTest {
 
         assertNull(regionWithPresent)
     }
+
+    @Test
+    fun `Inputs a second shape in remaining space`() {
+        val present1 = listOf(
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE),
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE),
+        )
+
+        val present2 = listOf(
+            listOf(PART_OF_SHAPE, EMPTY),
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE),
+        )
+
+        val regionWithPresent = RegionUnderTree(4, 2).insert(present1)?.insert(present2)
+
+        assertEquals(listOf(
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
+        ), regionWithPresent?.units)
+    }
 }
