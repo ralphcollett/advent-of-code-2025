@@ -12,6 +12,7 @@ class RegionUnderTree private constructor(val units: List<List<PresentShapeCell>
     constructor(width: Int, height: Int): this(List(height) { List(width) { EMPTY } })
 
     fun insert(present: List<List<PresentShapeCell>>): RegionUnderTree? {
+        if (present.size > units.size || present.first().size > units.first().size) return null
         val updatedUnits = units.mapIndexed { rowIndex, rows ->
             rows.mapIndexed { columnIndex, cell ->
                 val cellToInsert = present.getOrNull(rowIndex)?.getOrNull(columnIndex)

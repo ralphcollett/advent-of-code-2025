@@ -39,7 +39,7 @@ class ChristmasTreeTest {
     }
 
     @Test
-    fun `Knows when cannot insert shape when note enough space`() {
+    fun `Knows when cannot insert shape when not enough space`() {
         val present = listOf(
             listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
             listOf(PART_OF_SHAPE, EMPTY, EMPTY),
@@ -49,6 +49,19 @@ class ChristmasTreeTest {
         val regionWithPresent = RegionUnderTree(3, 3)
             .insert(present)
             ?.insert(present)
+
+        assertNull(regionWithPresent)
+    }
+
+    @Test
+    fun `Knows when cannot insert shape because too large`() {
+        val present = listOf(
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
+            listOf(PART_OF_SHAPE, EMPTY, EMPTY),
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE)
+        )
+
+        val regionWithPresent = RegionUnderTree(2, 2).insert(present)
 
         assertNull(regionWithPresent)
     }
