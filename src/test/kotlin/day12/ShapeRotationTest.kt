@@ -22,4 +22,26 @@ class ShapeRotationTest {
 
         assertEquals(expected, rotated)
     }
+
+    @Test
+    fun `Can rotate twice`() {
+        val rotated = listOf(
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE),
+            listOf(PART_OF_SHAPE, EMPTY),
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE)
+        ).rotateClockwise().rotateClockwise()
+
+        val expected = listOf(
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE),
+            listOf(EMPTY, PART_OF_SHAPE),
+            listOf(PART_OF_SHAPE, PART_OF_SHAPE)
+        )
+
+        assertEquals(expected, rotated)
+    }
+
+    @Test
+    fun `Rotates empty`() {
+        assertEquals(emptyList(), emptyList<List<Int>>().rotateClockwise())
+    }
 }

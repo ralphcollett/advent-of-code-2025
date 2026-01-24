@@ -13,11 +13,13 @@ class ChristmasTreeTest {
 
         val units = regionUnderTree.units
 
-        assertEquals(listOf(
-            listOf(EMPTY, EMPTY),
-            listOf(EMPTY, EMPTY),
-            listOf(EMPTY, EMPTY)
-        ), units)
+        assertEquals(
+            listOf(
+                listOf(EMPTY, EMPTY),
+                listOf(EMPTY, EMPTY),
+                listOf(EMPTY, EMPTY)
+            ), units
+        )
     }
 
     @Test
@@ -30,11 +32,13 @@ class ChristmasTreeTest {
 
         val regionWithPresent = RegionUnderTree(4, 3).insert(present)
 
-        assertEquals(listOf(
-            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
-            listOf(PART_OF_SHAPE, EMPTY, EMPTY, EMPTY),
-            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY)
-        ), regionWithPresent.first().units)
+        assertEquals(
+            listOf(
+                listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
+                listOf(PART_OF_SHAPE, EMPTY, EMPTY, EMPTY),
+                listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY)
+            ), regionWithPresent.first().units
+        )
     }
 
     @Test
@@ -80,10 +84,12 @@ class ChristmasTreeTest {
 
         val regionWithPresent = RegionUnderTree(4, 2).insert(present1).first().insert(present2)
 
-        assertEquals(listOf(
-            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
-            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
-        ), regionWithPresent.first().units)
+        assertEquals(
+            listOf(
+                listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, EMPTY),
+                listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
+            ), regionWithPresent.first().units
+        )
     }
 
     @Test
@@ -96,9 +102,29 @@ class ChristmasTreeTest {
 
         val regionWithPresent = RegionUnderTree(3, 2).insert(present)
 
-        assertEquals(listOf(
-            listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
-            listOf(PART_OF_SHAPE, EMPTY, PART_OF_SHAPE),
-        ), regionWithPresent.first().units)
+        assertEquals(
+            listOf(
+                listOf(PART_OF_SHAPE, PART_OF_SHAPE, PART_OF_SHAPE),
+                listOf(PART_OF_SHAPE, EMPTY, PART_OF_SHAPE),
+            ), regionWithPresent.first().units
+        )
+    }
+
+    @Test
+    fun `Can get all shape insertions`() {
+        val present = listOf(
+            listOf(PART_OF_SHAPE, EMPTY),
+        )
+
+        val regionWithPresent = RegionUnderTree(2, 1).insert(present)
+
+        assertEquals(
+            listOf(
+                listOf(
+                    listOf(PART_OF_SHAPE, EMPTY)
+                ), listOf(
+                    listOf(EMPTY, PART_OF_SHAPE)
+                )
+            ), regionWithPresent.map { it.units })
     }
 }

@@ -16,14 +16,14 @@ class RegionUnderTree private constructor(val units: List<List<PresentShapeCell>
     private val width = units.first().size
 
     fun insert(present: List<List<PresentShapeCell>>): List<RegionUnderTree> {
-        val shapeRotations = generateSequence(present) { present.rotateClockwise() }.take(4).distinct()
+        val shapeRotations = generateSequence(present) { it.rotateClockwise() }.take(4).distinct()
         return (0..height).flatMap { y ->
             (0..width).flatMap { x ->
                 shapeRotations.map { shapeRotation ->
                     insertAtPosition(shapeRotation, x, y)
                 }
             }
-        }.filterNotNull()
+        }.filterNotNull().distinct()
     }
 
     private fun insertAtPosition(present: List<List<PresentShapeCell>>, x: Int, y: Int): RegionUnderTree? {
@@ -71,7 +71,9 @@ data class ChristmasTreePuzzleInput(
     val regionsInput: List<RegionUnderTreePuzzleInput>
 )
 
-fun <T> List<List<T>>.rotateClockwise(): List<List<T>> = List(maxOf { it.size }) { x -> List( size ) { y -> get(y)[x] } }
+fun <T> List<List<T>>.rotateClockwise(): List<List<T>> =
+    if (isEmpty()) this
+    else List(first().size) { x -> List(size) { y -> get(size - 1 - y)[x] } }
 
 fun countRegionsThatCanFitAllPresents(puzzleInput: String): Int {
     TODO("Not yet implemented")
