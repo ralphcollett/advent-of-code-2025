@@ -16,13 +16,14 @@ class RegionUnderTree private constructor(val units: List<List<PresentShapeCell>
     private val width = units.first().size
 
     fun insert(present: List<List<PresentShapeCell>>): RegionUnderTree? {
+        val shapeRotations = generateSequence(present) { present.rotateClockwise() }.take(4).distinct()
         return (0..height).flatMap { y ->
-            (0..width).map { x ->
-                x to y
+            (0..width).flatMap { x ->
+                shapeRotations.map { shapeRotation ->
+                    insertAtPosition(shapeRotation, x, y)
+                }
             }
-        }.firstNotNullOfOrNull { (x, y) ->
-            insertAtPosition(present, x, y)
-        }
+        }.filterNotNull().firstOrNull()
     }
 
     private fun insertAtPosition(present: List<List<PresentShapeCell>>, x: Int, y: Int): RegionUnderTree? {
