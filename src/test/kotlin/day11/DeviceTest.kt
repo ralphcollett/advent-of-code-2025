@@ -14,6 +14,18 @@ class DeviceTest {
         assertEquals(emptyList<List<String>>(), paths)
     }
 
+    @Test
+    fun `Knows no paths when no you device`() {
+        val devices = listOf(
+            Device("aaa", listOf("you", "hhhh")),
+            Device("bbb", listOf("ddd", "eee")),
+        )
+
+        val paths = pathsFromYouToEnd(devices)
+
+        assertEquals(emptyList<List<String>>(), paths)
+    }
+
     private fun pathsFromYouToEnd(devices: List<Device>): List<List<String>> {
         return emptyList()
     }
