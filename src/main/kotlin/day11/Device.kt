@@ -2,12 +2,12 @@ package day11
 
 data class Device(val name: String, val connectedDeviceNames: List<String>)
 
-private const val END_DEVICE_NAME = "end"
+private const val OUT_DEVICE_NAME = "you"
 
-private const val YOU_DEVICE_NAME = "you"
+private const val END_DEVICE_NAME = "out"
 
-fun pathsFromYouToEnd(devices: List<Device>): List<List<String>> {
-    val youDevice = devices.find { it.name == YOU_DEVICE_NAME } ?: return emptyList()
+fun pathsFromYouToOut(devices: List<Device>): List<List<String>> {
+    val youDevice = devices.find { it.name == OUT_DEVICE_NAME } ?: return emptyList()
     val devicesWithEnd = devices + Device(END_DEVICE_NAME, emptyList())
 
     fun pathToEnd(currentPosition: Device, pathsSoFar: List<List<String>>): List<List<String>> {
@@ -28,7 +28,7 @@ fun pathsFromYouToEnd(devices: List<Device>): List<List<String>> {
 
     return youDevice.connectedDeviceNames.flatMap { connectedDeviceName ->
         devicesWithEnd.find { device -> device.name == connectedDeviceName }?.let {
-            pathToEnd(it, listOf(listOf(YOU_DEVICE_NAME)))
+            pathToEnd(it, listOf(listOf(OUT_DEVICE_NAME)))
         } ?: emptyList()
     }
 }

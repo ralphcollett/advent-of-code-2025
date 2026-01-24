@@ -6,10 +6,10 @@ import kotlin.test.Test
 class DeviceTest {
 
     @Test
-    fun `Knows no paths from you to end when no devices`() {
+    fun `Knows no paths from you to out when no devices`() {
         val devices = emptyList<Device>()
 
-        val paths = pathsFromYouToEnd(devices)
+        val paths = pathsFromYouToOut(devices)
 
         assertEquals(emptyList<List<String>>(), paths)
     }
@@ -21,46 +21,74 @@ class DeviceTest {
             Device("bbb", listOf("ddd", "eee")),
         )
 
-        val paths = pathsFromYouToEnd(devices)
+        val paths = pathsFromYouToOut(devices)
 
         assertEquals(emptyList<List<String>>(), paths)
     }
 
     @Test
-    fun `Knows no paths when no links from you to end`() {
+    fun `Knows no paths when no links from you to out`() {
         val devices = listOf(
             Device("aaa", listOf("you", "hhhh")),
             Device("you", listOf("ddd", "eee")),
         )
 
-        val paths = pathsFromYouToEnd(devices)
+        val paths = pathsFromYouToOut(devices)
 
         assertEquals(emptyList<List<String>>(), paths)
     }
 
     @Test
-    fun `Knows when path with length 1 from you to end`() {
+    fun `Knows when path with length 1 from you to out`() {
         val devices = listOf(
             Device("aaa", listOf("you", "hhhh")),
-            Device("you", listOf("end", "ggg")),
+            Device("you", listOf("out", "ggg")),
         )
 
-        val paths = pathsFromYouToEnd(devices)
+        val paths = pathsFromYouToOut(devices)
 
-        val expectedPaths = listOf(listOf("you", "end"))
+        val expectedPaths = listOf(listOf("you", "out"))
         assertEquals(expectedPaths, paths)
     }
 
     @Test
-    fun `Knows path from you to end with length of 2`() {
+    fun `Knows path from you to out with length of 2`() {
         val devices = listOf(
-            Device("aaa", listOf("end", "hhhh")),
+            Device("aaa", listOf("out", "hhhh")),
             Device("you", listOf("aaa", "ggg")),
         )
 
-        val paths = pathsFromYouToEnd(devices)
+        val paths = pathsFromYouToOut(devices)
 
-        val expectedPaths = listOf(listOf("you", "aaa", "end"))
+        val expectedPaths = listOf(listOf("you", "aaa", "out"))
+        assertEquals(expectedPaths, paths)
+    }
+
+    @Test
+    fun `Finds multiple paths`() {
+        val devices = listOf(
+            Device("aaa", listOf("you", "hhhh")),
+            Device("you", listOf("bbb", "ccc")),
+            Device("bbb", listOf("ddd", "eee")),
+            Device("ccc", listOf("ddd", "eee", "fff")),
+            Device("ddd", listOf("ggg")),
+            Device("eee", listOf("out")),
+            Device("fff", listOf("out")),
+            Device("ggg", listOf("out")),
+            Device("hhh", listOf("ccc", "fff", "iii")),
+            Device("iii", listOf("out")),
+        )
+
+        val paths = pathsFromYouToOut(devices)
+
+        val expectedPaths = listOf(
+            listOf("you", "bbb", "ddd", "ggg", "out"),
+            listOf("you", "bbb", "eee", "out"),
+            listOf("you", "ccc", "ddd", "ggg", "out"),
+            listOf("you", "ccc", "eee", "out"),
+            listOf("you", "ccc", "fff", "out"),
+        )
+
         assertEquals(expectedPaths, paths)
     }
 }
