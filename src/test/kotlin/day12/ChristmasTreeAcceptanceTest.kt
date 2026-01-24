@@ -1,13 +1,11 @@
 package day12
 
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class ChristmasTreeAcceptanceTest {
 
     @Test
-    @Ignore
     fun `Knows number of regions that can fit all presents`() {
         val puzzleInput = """
             0:
