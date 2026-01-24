@@ -116,6 +116,28 @@ class ChristmasTreePuzzleInputParserTest {
         assertNull(actual)
     }
 
+    @Test
+    fun `Should have quantity for each shape`() {
+        val puzzleInput = """
+            0:
+            ###
+            ##.
+            ##.
+
+            1:
+            ###
+            ##.
+            .##
+
+            4x4: 0
+            12x5: 1 0
+        """.trimIndent()
+
+        val actual = parse(puzzleInput)
+
+        assertNull(actual)
+    }
+
     private fun parse(puzzleInput: String): ChristmasTreePuzzleInput? {
         val presentsInputSection = puzzleInput.substringBeforeLast("\n\n").split("\n\n")
         val presents = presentsInputSection.map { presentInputSection ->
@@ -143,7 +165,7 @@ class ChristmasTreePuzzleInputParserTest {
             val (width, height) = regionInputSection.substringBefore(":").split("x").map { it.toInt() }
             val quantityOfPresents = regionInputSection.substringAfter(" ").split(" ").map { it.toInt() }
             RegionUnderTree(width, height, quantityOfPresents)
-        }
+        }.takeIf { regions -> regions.all { it.quantityOfPresents.size == presents.size } } ?: return null
 
         return ChristmasTreePuzzleInput(presents, regionsUnderTree)
     }
