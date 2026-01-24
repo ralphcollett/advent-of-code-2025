@@ -71,10 +71,26 @@ data class ChristmasTreePuzzleInput(
     val regionsInput: List<RegionUnderTreePuzzleInput>
 )
 
-fun <T> List<List<T>>.rotateClockwise(): List<List<T>> =
-    if (isEmpty()) this
-    else List(first().size) { x -> List(size) { y -> get(size - 1 - y)[x] } }
+fun <T> List<List<T>>.rotateClockwise(): List<List<T>> = List(maxOf { it.size }) { x -> List( size ) { y -> get(y)[x] } }
 
 fun countRegionsThatCanFitAllPresents(puzzleInput: String): Int {
-    TODO("Not yet implemented")
+    return parse(puzzleInput)?.let { countRegionsThatCanFitAllPresents(it) } ?: return 0
+}
+
+private fun countRegionsThatCanFitAllPresents(puzzleInput: ChristmasTreePuzzleInput): Int {
+    val regionsInput = puzzleInput.regionsInput
+    val presentPuzzleInputs = puzzleInput.presentPuzzleInputs
+    return regionsInput.count { regionInput ->
+        val regionsPuzzleInputs = regionInput
+            .quantityOfPresents
+            .withIndex()
+            .flatMap { (index, quantityOfPresents) ->
+                val presentInput = presentPuzzleInputs.find { it.index == index } ?: return@flatMap emptyList()
+                List(quantityOfPresents) { presentInput }
+            }
+
+        regionsPuzzleInputs.fold(listOf(RegionUnderTree(regionInput.width, regionInput.height))) { regionUnderTree, puzzleInput ->
+            regionUnderTree.flatMap { it.insert(puzzleInput.units) }
+        }.isNotEmpty()
+    }
 }
