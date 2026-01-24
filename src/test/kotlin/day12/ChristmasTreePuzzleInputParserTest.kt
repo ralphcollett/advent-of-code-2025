@@ -4,6 +4,7 @@ import day12.ChristmasTreePuzzleInputParserTest.PresentShapeCell.EMPTY
 import day12.ChristmasTreePuzzleInputParserTest.PresentShapeCell.PART_OF_SHAPE
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class ChristmasTreePuzzleInputParserTest {
 
@@ -61,7 +62,24 @@ class ChristmasTreePuzzleInputParserTest {
         assertEquals(expected, actual)
     }
 
-    private fun parse(puzzleInput: String): ChristmasTreePuzzleInput {
+    @Test
+    fun `Does not allow invalid characters in present shape input`() {
+        val puzzleInput = """
+            0:
+            ###
+            #?.
+            ##.
+
+            4x4: 0
+        """.trimIndent()
+
+        val actual = parse(puzzleInput)
+
+        assertNull(actual)
+    }
+
+
+    private fun parse(puzzleInput: String): ChristmasTreePuzzleInput? {
         val presentsInputSection = puzzleInput.substringBeforeLast("\n\n").split("\n\n")
         val presents = presentsInputSection.map { presentInputSection ->
             val presentIndexRow = presentInputSection.substringBefore("\n")
@@ -71,7 +89,8 @@ class ChristmasTreePuzzleInputParserTest {
                 presentShapeRow.map { presentShapeCell ->
                     when (presentShapeCell) {
                         '#' -> PART_OF_SHAPE
-                        else -> EMPTY
+                        '.' -> EMPTY
+                        else -> return null
                     }
 
                 }
